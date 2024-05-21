@@ -10,7 +10,7 @@ using System.Threading.Tasks;
 
 namespace DataAcess.Concrete
 {
-    public class AboutDal: BaseRepository<About, AppDbcontext>
+    public class AboutDal: BaseRepository<About, AppDbcontext>,IAboutDal
     {
     }
 

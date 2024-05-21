@@ -2,9 +2,10 @@
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
+    [Area("Dashboard")]
     public class AdminController : Controller
     {
-        [Area("Dashboard")]
+        
         public IActionResult Index()
         {
             return View();

@@ -17,7 +17,7 @@ namespace Entities.Concrete.TableModels
 
         public string TwitterUrl { get; set; }
 
-        public string instagramUrl { get; set; }
+        public string InstagramUrl { get; set; }
 
         public int PositionID { get; set; }
 

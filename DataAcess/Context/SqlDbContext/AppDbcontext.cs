@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 
@@ -13,7 +14,12 @@ namespace DataAcess.Context.SqlDbContext
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("Data Source=Localhost;Initial Catalog= MyDatabaseDB ;Integrated Security = true;");
+            optionsBuilder.UseSqlServer("Data Source=Localhost;Initial Catalog= RestoranDB; Integrated Security = true;Encrypt=false");
+        }
+
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.ApplyConfigurationsFromAssembly(Assembly.GetExecutingAssembly());
         }
         public DbSet<About> Abouts { get; set; }
 

@@ -10,10 +10,10 @@ namespace Core.Entities.Concrete
     {
         public int ID { get; set; }
 
-        public int  Deleted { get; set; }
+        public int Deleted { get; set; } = 0;
 
-        public int CreatedDate { get; set; }
+        public DateTime CreatedDate { get; set; }=DateTime.Now;
 
-        public int LastUpdatedDate { get; set;}
+        public DateTime? LastUpdatedDate { get; set;}
     }
 }

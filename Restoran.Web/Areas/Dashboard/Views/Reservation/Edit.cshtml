@@ -1,0 +1,48 @@
+﻿@model Rezervation
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="Edit" method="post">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="CustomerName" class="control-label">Ad</label>
+                <input asp-for="CustomerName" class="form-control" />
+                <span asp-validation-for="CustomerName" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="Email" class="control-label">Email</label>
+                <input asp-for="Email" class="form-control" />
+                <span asp-validation-for="Email" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="ReservationDate" class="control-label">Rezervasiya Vaxtı</label>
+                <input asp-for="ReservationDate" class="form-control" />
+                <span asp-validation-for="ReservationDate" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <label asp-for="PeopleCount" class="control-label">Adam Sayı</label>
+                <textarea asp-for="PeopleCount" class="form-control"></textarea>
+                <span asp-validation-for="PeopleCount" class="text-danger"></span>
+            </div>
+            <div class="form-group d-flex align-items-center">
+                <span style="margin-right:1rem;">Baxılıb:</span>
+                <input asp-for="Iscontacted" type="checkbox" checked="@Model.Iscontacted" />
+            </div>
+            <div class="form-group">
+                <label asp-for="Message" class="control-label">Mesaj</label>
+                <textarea asp-for="Message" class="form-control"></textarea>
+                <span asp-validation-for="Message" class="text-danger"></span>
+            </div>
+          
+
+            <div class="form-group">
+                <input type="submit" value="@DeafultConstantValue.ADD_MESSAGE" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
+<div>
+    <a asp-action="Index">@DeafultConstantValue.RETURN_TO_BACK</a>
+</div>

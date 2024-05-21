@@ -9,15 +9,15 @@ namespace Entities.Concrete.TableModels
 {
     public class Rezervation:BaseEntity
     {
-        public string Name { get; set; }
+        public string CustomerName { get; set; }
 
         public string Email { get; set; }
 
-        public DateTime RezervationTime { get; set; }
+        public DateTime ReservationDate { get; set; }
 
         public byte PeopleCount { get; set; }
 
-        public bool IsContact { get; set; }
+        public bool Iscontacted { get; set; }
         public string Message { get; set; }
     }
 }
