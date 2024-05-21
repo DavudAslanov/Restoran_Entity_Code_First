@@ -1,7 +1,5 @@
 ﻿using Bussines.Abstract;
-using Bussines.Concrete;
 using Entities.Concrete.Dtos;
-using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
@@ -28,15 +26,20 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Create(ContactCreateDto dto)
         {
             var result= _contactService.Add(dto);
-            if(!result.IsSuccess)
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ModelState.AddModelError("",result.Message);
-                ModelState.Clear();
-                return View(dto);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
-
-
         }
         [HttpGet]
         public IActionResult Edit(int id)
@@ -48,11 +51,17 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(ContactUpdateDto dto)
         {
             var result= _contactService.Update(dto);
-            if(!result.IsSuccess)
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
-                return View(dto);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
         }

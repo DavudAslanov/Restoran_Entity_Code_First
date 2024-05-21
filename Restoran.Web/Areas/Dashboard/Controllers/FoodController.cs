@@ -33,14 +33,19 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Create(FoodCreateDto dto)
         {
             var result = _foodService.Add(dto);
-
-            if (!result.IsSuccess)
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
-
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
-                return View(dto);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
 
@@ -59,13 +64,20 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(FoodUpdateDto dto)
         {
             var result = _foodService.Update(dto);
-            ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
 
-            if (!result.IsSuccess)
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
-                return View(dto);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
         }

@@ -9,7 +9,7 @@ namespace Bussines.Validations
         {
             RuleFor(x=>x.Name)
                 .MinimumLength(3)
-                .WithMessage("Minimum 3 Simvol Olmalıdır")
+                .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
                 .MaximumLength(150)
                 .WithMessage("Maximum Ad uzunluğu 150 Simvol Olmalıdır")
                 .NotEmpty()

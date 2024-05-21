@@ -31,8 +31,8 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             var result = _aboutService.Add(dto);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("",result.Message);
-                ModelState.Clear();
+                ModelState.AddModelError("Description", result.Message);
+                //ModelState.Clear();
                 return View(dto);
             }
             return RedirectToAction("Index");
@@ -50,8 +50,8 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             var result = _aboutService.Update(dto);
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
+                ModelState.AddModelError("Description",result.Message);
+                //ModelState.Clear();
                 return View(dto);
                 
             }

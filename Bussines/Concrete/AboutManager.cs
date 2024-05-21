@@ -41,6 +41,17 @@ namespace Bussines.Concrete
         {
             var model=AboutUpdateDto.ToAbout(dto);
             model.LastUpdatedDate = DateTime.Now;
+            var validator = _Validator.Validate(model);
+
+            string errorMessage = "";
+            foreach (var item in validator.Errors)
+            {
+                errorMessage = item.ErrorMessage;
+            }
+            if (!validator.IsValid)
+            {
+                return new ErrorResult(errorMessage);
+            }
             _aboutdal.Update(model);
 
             return new SuccessResult(Uimessage.UPDATE_MESSAGE);

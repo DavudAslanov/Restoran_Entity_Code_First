@@ -38,9 +38,9 @@ namespace Bussines.Validations
 
             RuleFor(x => x.Message)
               .MinimumLength(3)
-              .WithMessage("Minimum Message 3 Simvol Olmalıdır")
+              .WithMessage("Minimum Messaj 3 Simvol Olmalıdır")
               .MaximumLength(150)
-              .WithMessage("Maximum Message 150 Simvol Olmalıdır")
+              .WithMessage("Maximum Messaj 150 Simvol Olmalıdır")
               .NotEmpty()
               .WithMessage("Boş Ola Bilməz");
 

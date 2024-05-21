@@ -6,6 +6,7 @@ using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using System.ComponentModel.DataAnnotations;
 
 namespace Bussines.Concrete
 {
@@ -23,14 +24,15 @@ namespace Bussines.Concrete
             var model = FoodCategoryCreateDto.ToFoodCategory(dto);
             var validator=_Validator.Validate(model);
 
-            string errorMessage = "";
-            foreach(var item in validator.Errors)
+            List<string> errorMessages = new List<string>();
+            foreach (var item in validator.Errors)
             {
-                errorMessage = item.ErrorMessage;
+                errorMessages.Add(item.ErrorMessage);
             }
-            if(!validator.IsValid)
+            if (!validator.IsValid)
             {
-                return new ErrorResult(errorMessage);
+                string erorMessage = string.Join(", ", errorMessages);
+                return new ErrorResult(erorMessage);
             }
             _foodCategoryDal.Add(model);
 
@@ -41,6 +43,17 @@ namespace Bussines.Concrete
             var model = FoodCategoryUpdateDto.ToFoodCategory(dto);
 
             model.LastUpdatedDate = DateTime.Now;
+            var validator = _Validator.Validate(model);
+            List<string> errorMessages = new List<string>();
+            foreach (var item in validator.Errors)
+            {
+                errorMessages.Add(item.ErrorMessage);
+            }
+            if (!validator.IsValid)
+            {
+                string erorMessage = string.Join(", ", errorMessages);
+                return new ErrorResult(erorMessage);
+            }
             _foodCategoryDal.Update(model);
 
             return new SuccessResult(Uimessage.UPDATE_MESSAGE);

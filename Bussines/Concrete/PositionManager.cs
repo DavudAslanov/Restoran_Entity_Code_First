@@ -24,14 +24,15 @@ namespace Bussines.Concrete
             var model = PositionCreateDto.ToPosition(dto);
             var validator = _Validator.Validate(model);
 
-            string errorMessage = "";
+            List<string> errorMessages = new List<string>();
             foreach (var item in validator.Errors)
             {
-                errorMessage = item.ErrorMessage;
+                errorMessages.Add(item.ErrorMessage);
             }
             if (!validator.IsValid)
             {
-                return new ErrorResult(errorMessage);
+                string erorMessage = string.Join(", ", errorMessages);
+                return new ErrorResult(erorMessage);
             }
             _positionDal.Add(model);
 
@@ -41,6 +42,18 @@ namespace Bussines.Concrete
         {
             var model= PositionUpdateDto.ToPosition(dto);
             model.LastUpdatedDate = DateTime.Now;
+
+            var validator = _Validator.Validate(model);
+            List<string> errorMessages = new List<string>();
+            foreach (var item in validator.Errors)
+            {
+                errorMessages.Add(item.ErrorMessage);
+            }
+            if (!validator.IsValid)
+            {
+                string erorMessage = string.Join(", ", errorMessages);
+                return new ErrorResult(erorMessage);
+            }
             _positionDal.Update(model);
 
             return new SuccessResult(Uimessage.UPDATE_MESSAGE);

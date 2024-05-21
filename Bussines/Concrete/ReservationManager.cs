@@ -63,6 +63,18 @@ namespace Bussines.Concrete
         {
             var model = ReservationUpdateDto.ToReservation(dto);
             model.LastUpdatedDate = DateTime.Now;
+
+            var validator = _Validator.Validate(model);
+            List<string> errorMessages = new List<string>();
+            foreach (var item in validator.Errors)
+            {
+                errorMessages.Add(item.ErrorMessage);
+            }
+            if (!validator.IsValid)
+            {
+                string erorMessage = string.Join(", ", errorMessages);
+                return new ErrorResult(erorMessage);
+            }
             _reservationDal.Update(model);
 
             return new SuccessResult(Uimessage.UPDATE_MESSAGE);

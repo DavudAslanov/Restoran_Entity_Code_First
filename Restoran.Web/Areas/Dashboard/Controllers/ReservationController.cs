@@ -28,11 +28,18 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(ReservationUpdateDto dto)
         {
             var result=_reservationService.Update(dto);
-            if(!result.IsSuccess)
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
-                return View(result);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
         }

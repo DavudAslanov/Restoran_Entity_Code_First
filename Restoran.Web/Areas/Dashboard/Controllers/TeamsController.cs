@@ -32,12 +32,19 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Create(TeamsCreateDto dto)
         {
             var result = _teamsService.Add(dto);
-            if (!result.IsSuccess)
+            ViewData["PositionId"] = _positionService.GetAll().Data;
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ViewData["PositionId"] = _positionService.GetAll().Data;
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
-                return View(dto);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
         }
@@ -55,11 +62,18 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         {
             ViewData["PositionId"] = _positionService.GetAll().Data;
             var result = _teamsService.Update(dto);
-            if (!result.IsSuccess)
+            if (!string.IsNullOrEmpty(result.Message))
             {
-                ModelState.AddModelError("", result.Message);
-                ModelState.Clear();
-                return View(dto);
+                var individualErrors = result.Message.Split(", ");
+                if (!result.IsSuccess)
+                {
+                    foreach (var errorMessage in individualErrors)
+                    {
+                        ModelState.Clear();
+                        ModelState.AddModelError("", errorMessage);
+                    }
+                    return View(dto);
+                }
             }
             return RedirectToAction("Index");
 
