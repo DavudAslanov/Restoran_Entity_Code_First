@@ -16,8 +16,8 @@ namespace Bussines.Abstract
 
         IResult Delete(int id);
 
-        IDataResult<List<Rezervation>> GetAll();
+        IDataResult<List<ReservationDto>> GetAll();
 
-        IDataResult<Rezervation> GetById(int id);
+        IDataResult<ReservationUpdateDto> GetById(int id);
     }
 }

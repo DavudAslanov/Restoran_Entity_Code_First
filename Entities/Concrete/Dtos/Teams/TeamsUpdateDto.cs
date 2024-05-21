@@ -19,6 +19,21 @@ namespace Entities.Concrete.Dtos
 
         public bool IsHomePage { get; set; }
 
+        public static TeamsUpdateDto ToTeams(Team team)
+        {
+            TeamsUpdateDto dto = new()
+            {
+               ID=team.ID,
+               Name=team.Name,
+               LastName=team.LastName,
+               FacebookUrl=team.FacebookUrl,
+               TwitterUrl=team.TwitterUrl,
+               InstagramUrl=team.InstagramUrl,
+               PositionID=team.PositionID,
+               IsHomePage=team.IsHomePage,
+            };
+            return dto;
+        }
         public static Team ToTeams(TeamsUpdateDto dto)
         {
             Team team = new Team()

@@ -32,6 +32,7 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("",result.Message);
+                ModelState.Clear();
                 return View(dto);
             }
             return RedirectToAction("Index");
@@ -47,11 +48,14 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(AboutUpdateDto dto)
         {
             var result = _aboutService.Update(dto);
-            if (result.IsSuccess)
+            if (!result.IsSuccess)
             {
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
+                return View(dto);
+                
             }
-            return View(dto);
+            return RedirectToAction("Index");
         }
     }
 }

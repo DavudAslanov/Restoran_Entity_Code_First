@@ -20,7 +20,7 @@ namespace Bussines.Concrete
         }
         public IResult Add(AboutCreateDto dto)
         {
-            var model = AboutCreateDto.ToFood(dto);
+            var model = AboutCreateDto.ToAbout(dto);
        
             var validator=_Validator.Validate(model);
 

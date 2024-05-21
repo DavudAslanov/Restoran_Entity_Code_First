@@ -80,7 +80,9 @@ namespace Bussines.Concrete
         public IDataResult<FoodCategoryUpdateDto> GetById(int id)
         {
             var model = _foodCategoryDal.GetById(id);
-            var foodUpdateDto = FoodCategoryUpdateDto.ToFood(model);
+
+            var foodUpdateDto = FoodCategoryUpdateDto.ToFoodCategory(model);
+
             return new SuccessDataResult<FoodCategoryUpdateDto>(foodUpdateDto);
         }
 

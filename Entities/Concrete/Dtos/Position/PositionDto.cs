@@ -12,7 +12,7 @@ namespace Entities.Concrete.Dtos
         public int ID { get; set; }
         public string Name { get; set; }
 
-        public static List<PositionDto> ToAbout(Position position)
+        public static List<PositionDto> ToPosition(Position position)
         {
             PositionDto dto = new PositionDto()
             {

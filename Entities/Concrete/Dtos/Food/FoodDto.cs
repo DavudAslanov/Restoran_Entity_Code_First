@@ -18,7 +18,7 @@ namespace Entities.Concrete.Dtos
         public string FoodCategoryName { get; set; }
         public int FoodCategoryID { get; set; }
 
-        public static List<FoodDto> ToAbout(Food food)
+        public static List<FoodDto> ToFood(Food food)
         {
             FoodDto dto = new FoodDto()
             {

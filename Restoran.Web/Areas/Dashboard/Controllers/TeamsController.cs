@@ -19,49 +19,55 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
 
         public IActionResult Index()
         {
-            var data= _teamsService.GetTeamWithTeamCategories().Data;
+            var data = _teamsService.GetTeamWithTeamCategories().Data;
             return View(data);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            var data=_positionService.GetAll().Data;
-            ViewData["PositionId"] =data;
+            ViewData["PositionId"] = _positionService.GetAll().Data;
             return View();
         }
         [HttpPost]
         public IActionResult Create(TeamsCreateDto dto)
         {
-            var result= _teamsService.Add(dto);
+            var result = _teamsService.Add(dto);
             if (!result.IsSuccess)
             {
+                ViewData["PositionId"] = _positionService.GetAll().Data;
                 ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
                 return View(dto);
-            }           
+            }
             return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
             ViewData["PositionId"] = _positionService.GetAll().Data;
-            
-            var data=  _teamsService.GetById(id).Data;
+
+            var data = _teamsService.GetById(id).Data;
 
             return View(data);
         }
         [HttpPost]
         public IActionResult Edit(TeamsUpdateDto dto)
         {
-            var result =  _teamsService.Update(dto);
-            if (result.IsSuccess)
-                return RedirectToAction("Index");
+            ViewData["PositionId"] = _positionService.GetAll().Data;
+            var result = _teamsService.Update(dto);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
+                return View(dto);
+            }
+            return RedirectToAction("Index");
 
-            return View(dto);
         }
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var result =  _teamsService.Delete(id);
+            var result = _teamsService.Delete(id);
             if (result.IsSuccess)
                 return RedirectToAction("Index");
 

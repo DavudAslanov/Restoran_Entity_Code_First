@@ -17,7 +17,7 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         }
         public IActionResult Index()
         {
-            var data=_foodCategoryService.GetAllFoodCategories().Data;
+            var data = _foodCategoryService.GetAllFoodCategories().Data;
             return View(data);
         }
         [HttpGet]
@@ -33,11 +33,10 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
                 return View(dto);
             }
-                return RedirectToAction("Index");
-
-            
+            return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Edit(int id)
@@ -51,16 +50,19 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         {
             var result = _foodCategoryService.Update(dto);
             if (result.IsSuccess)
-                return RedirectToAction("Index");
-
-            return View(dto);
+            {
+                ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
+                return View(dto);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]
         public IActionResult Delete(int id)
         {
             var result = _foodCategoryService.Delete(id);
-            if (result.IsSuccess)
+            if (!result.IsSuccess)
                 return RedirectToAction("Index");
 
             return View(result);

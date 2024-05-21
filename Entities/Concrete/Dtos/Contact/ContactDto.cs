@@ -12,7 +12,7 @@ namespace Entities.Concrete.Dtos
         public string Title { get; set; }
         public string Message { get; set; }
 
-        public static List<ContactDto> ToAbout(Contact contact)
+        public static List<ContactDto> ToContact(Contact contact)
         {
             ContactDto dto = new ContactDto()
             {

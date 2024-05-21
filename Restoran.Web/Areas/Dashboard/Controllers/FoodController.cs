@@ -3,6 +3,7 @@ using Bussines.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
@@ -18,24 +19,27 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         }
         public IActionResult Index()
         {
-            var data=_foodService.GetFoodWithFoodCategories().Data;
+            var data = _foodService.GetFoodWithFoodCategories().Data;
             return View(data);
         }
         [HttpGet]
         public IActionResult Create()
         {
-            var data = _foodCategoryService.GetAllFoodCategories().Data;
-            ViewData["FoodCategorie"] = data;
+            ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
+
             return View();
         }
         [HttpPost]
         public IActionResult Create(FoodCreateDto dto)
         {
-            var result=_foodService.Add(dto);
+            var result = _foodService.Add(dto);
 
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("",result.Message);
+                ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
+
+                ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
                 return View(dto);
             }
             return RedirectToAction("Index");
@@ -55,10 +59,15 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(FoodUpdateDto dto)
         {
             var result = _foodService.Update(dto);
-            if (result.IsSuccess)
-                return RedirectToAction("Index");
+            ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
 
-            return View(dto);
+            if (!result.IsSuccess)
+            {
+                ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
+                return View(dto);
+            }
+            return RedirectToAction("Index");
         }
 
         [HttpPost]

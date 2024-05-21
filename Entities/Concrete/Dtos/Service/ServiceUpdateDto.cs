@@ -12,6 +12,19 @@ namespace Entities.Concrete.Dtos
         public bool IsHomePage { get; set; }
 
         public string IconName { get; set; }
+
+        public static ServiceUpdateDto ToService(Service service)
+        {
+            ServiceUpdateDto dto = new()
+            {
+                ID= service.ID,
+                Name= service.Name,
+                Description= service.Description,
+                IsHomePage= service.IsHomePage,
+                IconName= service.IconName,
+            };
+            return dto;
+        }
         public static Service ToService(ServiceUpdateDto dto)
         {
             Service service = new Service()

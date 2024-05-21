@@ -54,24 +54,42 @@ namespace Bussines.Concrete
 
         public IResult Delete(int id)
         {
-            var data = GetById(id).Data;
+            var model = GetById(id).Data;
 
-            data.Deleted = id;
+            var serviceDelete = ServiceDeleteDto.ToService(model);
+            serviceDelete.Deleted = id;
 
-            _serviceDal.Update(data);
+            _serviceDal.Update(serviceDelete);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
-        public IDataResult<List<Service>> GetAll()
+        public IDataResult<List<ServiceDto>> GetAll()
         {
-            var result = _serviceDal.GetAll(x => x.Deleted == 0);
+            var models = _serviceDal.GetAll(x => x.Deleted == 0);
+            List<ServiceDto> serviceDtos = new List<ServiceDto>();
 
-            return new SuccessDataResult<List<Service>>(result);
+            foreach (var model in models)
+            {
+                ServiceDto dto = new ServiceDto
+                {
+                   ID= model.ID,
+                   Name= model.Name,
+                   Description= model.Description,
+                   IconName= model.IconName,
+                   IsHomePage= model.IsHomePage,
+                };
+                serviceDtos.Add(dto);
+            }
+
+            return new SuccessDataResult<List<ServiceDto>>(serviceDtos);
         }
 
-        public IDataResult<Service> GetById(int id)
+        public IDataResult<ServiceUpdateDto> GetById(int id)
         {
-            return new SuccessDataResult<Service>(_serviceDal.GetById(id));
+            var model = _serviceDal.GetById(id);
+            var serviceUpdateDto = ServiceUpdateDto.ToService(model);
+
+            return new SuccessDataResult<ServiceUpdateDto>(serviceUpdateDto);
         }
 
       

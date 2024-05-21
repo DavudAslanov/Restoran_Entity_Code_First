@@ -48,17 +48,21 @@ namespace Bussines.Concrete
 
         public IResult Delete(int id)
         {
-            var data = GetById(id).Data;
+            var model = GetById(id).Data;
+            var teamDelete = TeamsDeleteDto.ToTeams(model);
+            teamDelete.Deleted = id;
 
-            data.Deleted = id;
-
-            _team.Update(data);
+            _team.Update(teamDelete);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
-        public IDataResult<Team> GetById(int id)
+        public IDataResult<TeamsUpdateDto> GetById(int id)
         {
-            return new SuccessDataResult<Team>(_team.GetById(id));
+            var model = _team.GetById(id);
+
+            var teamUpdate = TeamsUpdateDto.ToTeams(model);
+
+            return new SuccessDataResult<TeamsUpdateDto>(teamUpdate);
         }
 
         public IDataResult<List<TeamsDto>> GetTeamWithTeamCategories()

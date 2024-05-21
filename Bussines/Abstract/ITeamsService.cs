@@ -19,6 +19,6 @@ namespace Bussines.Abstract
 
         IDataResult<List<TeamsDto>> GetTeamWithTeamCategories();
 
-        IDataResult<Team> GetById(int id);
+        IDataResult<TeamsUpdateDto> GetById(int id);
     }
 }

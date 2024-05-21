@@ -55,24 +55,40 @@ namespace Bussines.Concrete
 
         public IResult Delete(int id)
         {
-            var data = GetById(id).Data;
+            var model = GetById(id).Data;
+            var testmonialDelete = TestmonialDeleteDto.ToTestmonial(model);
+            testmonialDelete.Deleted = id;
 
-            data.Deleted = id;
-
-            _testmonialDal.Update(data);
+            _testmonialDal.Update(testmonialDelete);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
-        public IDataResult<List<Testmonial>> GetAll()
+        public IDataResult<List<TestmonialDto>> GetAll()
         {
-            var result = _testmonialDal.GetAll(x => x.Deleted == 0);
+            var models = _testmonialDal.GetAll(x => x.Deleted == 0);
 
-            return new SuccessDataResult<List<Testmonial>>(result);
+            List<TestmonialDto> serviceDtos = new List<TestmonialDto>();
+
+            foreach (var model in models)
+            {
+                TestmonialDto dto = new TestmonialDto
+                {
+                    ID=model.ID,
+                    FirstName=model.FirstName,
+                    LastName=model.LastName,
+                    FeedBack=model.FeedBack,
+                    PhotoUrl=model.PhotoUrl,
+                };
+                serviceDtos.Add(dto);
+            }
+            return new SuccessDataResult<List<TestmonialDto>>(serviceDtos);
         }
 
-        public IDataResult<Testmonial> GetById(int id)
+        public IDataResult<TestmonialUpdateDto> GetById(int id)
         {
-            return new SuccessDataResult<Testmonial>(_testmonialDal.GetById(id));
+            var model = _testmonialDal.GetById(id);
+            var testmonialUpdate = TestmonialUpdateDto.ToTestmonial(model);
+            return new SuccessDataResult<TestmonialUpdateDto>(testmonialUpdate);
         }
 
         public IResult Update(Testmonial entity)

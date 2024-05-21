@@ -5,7 +5,7 @@ namespace Entities.Concrete.Dtos
     {
         public string Description { get; set; }
 
-        public static About ToFood(AboutCreateDto dto)
+        public static About ToAbout(AboutCreateDto dto)
         {
             About about = new()
             {

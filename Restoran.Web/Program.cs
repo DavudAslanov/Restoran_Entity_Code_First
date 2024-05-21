@@ -37,6 +37,7 @@ namespace Restoran.Web
             builder.Services.AddScoped<IValidator<Service>, ServiceValidation>();
             builder.Services.AddScoped<IValidator<Team>, TeamValidation>();
             builder.Services.AddScoped<IValidator<Testmonial>, TestmonialValidation>();
+            builder.Services.AddScoped<IValidator<Rezervation>,ReservationValidation>();
 
             builder.Services.AddScoped<IFoodCategoryDal, FoodCategoryDal>();
             builder.Services.AddScoped<IFoodCategoryService,FoodCategoryManager>();

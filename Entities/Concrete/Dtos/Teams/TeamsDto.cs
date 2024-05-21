@@ -1,4 +1,6 @@
-﻿namespace Entities.Concrete.Dtos
+﻿using Entities.Concrete.TableModels;
+
+namespace Entities.Concrete.Dtos
 {
     public class TeamsDto
     {
@@ -17,5 +19,23 @@
 
         public bool IsHomePage { get; set; }
         public string PositionName {  get; set; }
+
+        public static List<TeamsDto> ToTeams(Team team)
+        {
+            TeamsDto dto = new TeamsDto()
+            {
+               ID=team.ID,
+               Name=team.Name,
+               LastName=team.LastName,
+               FacebookUrl=team.FacebookUrl,
+               TwitterUrl=team.TwitterUrl,
+               InstagramUrl=team.InstagramUrl,
+               PositionID=team.PositionID,
+               IsHomePage=team.IsHomePage,
+            };
+            List<TeamsDto> dtoList = new List<TeamsDto>();
+            dtoList.Add(dto);
+            return dtoList;
+        }
     }
 }

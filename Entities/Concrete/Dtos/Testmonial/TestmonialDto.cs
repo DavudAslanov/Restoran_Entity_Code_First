@@ -18,5 +18,20 @@ namespace Entities.Concrete.Dtos
 
         public string PhotoUrl { get; set; }
 
+        public static List<TestmonialDto> ToTestmonial(Testmonial testmonial)
+        {
+            TestmonialDto dto = new TestmonialDto()
+            {
+               ID= testmonial.ID,
+               FirstName= testmonial.FirstName,
+               LastName= testmonial.LastName,
+               FeedBack= testmonial.FeedBack,
+               PhotoUrl= testmonial.PhotoUrl
+            };
+            List<TestmonialDto> dtoList = new List<TestmonialDto>();
+            dtoList.Add(dto);
+            return dtoList;
+        }
+
     }
 }

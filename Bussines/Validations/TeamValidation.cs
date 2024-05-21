@@ -51,12 +51,6 @@ namespace Bussines.Validations
               .WithMessage("Maximum Instagram 150 Simvol Olmalıdır")
               .NotEmpty()
               .WithMessage("Boş Ola Bilməz");
-
-            RuleFor(x=>x.Position)
-                .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
-
-
         }
     }
 }

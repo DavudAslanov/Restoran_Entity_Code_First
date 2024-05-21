@@ -17,8 +17,8 @@ namespace Bussines.Abstract
 
         IResult Delete(int id);
 
-        IDataResult<List<Service>> GetAll();
+        IDataResult<List<ServiceDto>> GetAll();
 
-        IDataResult<Service> GetById(int id);
+        IDataResult<ServiceUpdateDto> GetById(int id);
     }
 }

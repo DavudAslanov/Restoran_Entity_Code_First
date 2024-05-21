@@ -13,7 +13,7 @@ namespace Entities.Concrete.Dtos
         public string Name { get; set; }
         public string IconName { get; set; }
 
-        public static List<FoodCategoryDto> ToAbout(FoodCategory foodcategory)
+        public static List<FoodCategoryDto> ToFoodCategory(FoodCategory foodcategory)
         {
             FoodCategoryDto dto= new FoodCategoryDto()
             {

@@ -33,6 +33,7 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
                 return View(dto);
             }
             return RedirectToAction("Index");
@@ -46,12 +47,14 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Edit(PositionUpdateDto dto)
         {
-            var data = _positionService.Update(dto);
-            if (data.IsSuccess)
+            var result = _positionService.Update(dto);
+            if (!result.IsSuccess)
             {
-                return RedirectToAction("Index");
+                ModelState.AddModelError("", result.Message);
+                ModelState.Clear();
+                return View(result);
             }
-            return View(data);
+            return RedirectToAction("Index");
         }
         [HttpPost]
         public IActionResult Delete(int id)

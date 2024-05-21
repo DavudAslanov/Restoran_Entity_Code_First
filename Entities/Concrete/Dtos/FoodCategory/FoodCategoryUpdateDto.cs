@@ -9,7 +9,7 @@ namespace Entities.Concrete.Dtos
         public string Name { get; set; }
         public string IConName { get; set; }
 
-        public static FoodCategoryUpdateDto ToFood(FoodCategory foodCategory)
+        public static FoodCategoryUpdateDto ToFoodCategory(FoodCategory foodCategory)
         {
             FoodCategoryUpdateDto dto = new()
             {

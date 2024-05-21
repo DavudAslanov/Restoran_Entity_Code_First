@@ -13,6 +13,18 @@ namespace Entities.Concrete.Dtos
 
         public string PhotoUrl { get; set; }
 
+        public static TestmonialUpdateDto ToTestmonial(Testmonial testmonial)
+        {
+            TestmonialUpdateDto dto = new()
+            {
+               ID= testmonial.ID,
+               FirstName= testmonial.FirstName,
+               LastName= testmonial.LastName,
+               FeedBack= testmonial.FeedBack,
+               PhotoUrl= testmonial.PhotoUrl,
+            };
+            return dto;
+        }
         public static Testmonial ToTestmonial(TestmonialUpdateDto dto)
         {
             Testmonial Testmonial = new()

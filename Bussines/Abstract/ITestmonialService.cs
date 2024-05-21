@@ -17,8 +17,8 @@ namespace Bussines.Abstract
 
         IResult Delete(int id);
 
-        IDataResult<List<Testmonial>> GetAll();
+        IDataResult<List<TestmonialDto>> GetAll();
 
-        IDataResult<Testmonial> GetById(int id);
+        IDataResult<TestmonialUpdateDto> GetById(int id);
     }
 }
