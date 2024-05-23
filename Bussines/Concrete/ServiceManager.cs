@@ -1,5 +1,6 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAcess.Abstract;
@@ -7,6 +8,7 @@ using DataAcess.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -25,9 +27,12 @@ namespace Bussines.Concrete
             _serviceDal = serviceDal;
             _Validator = validator;
         }
-        public IResult Add(ServiceCreateDto dto)
+        public IResult Add(ServiceCreateDto dto, IFormFile IconName, string webRootPath)
         {
             var model=ServiceCreateDto.ToService(dto);
+
+            model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
+
             var validator = _Validator.Validate(model);
 
             List<string> errorMessages = new List<string>();
@@ -44,10 +49,19 @@ namespace Bussines.Concrete
 
             return new SuccessResult(Uimessage.ADD_MESSAGE);
         }
-        public IResult Update(ServiceUpdateDto dto)
+        public IResult Update(ServiceUpdateDto dto, IFormFile IconName, string webRootPath)
         {
             var model=ServiceUpdateDto.ToService( dto);
             model.LastUpdatedDate = DateTime.Now;
+            var value = GetById(dto.ID).Data;
+            if (IconName == null)
+            {
+                model.IconName = value.IconName;
+            }
+            else
+            {
+                model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
+            }
             var validator = _Validator.Validate(model);
             List<string> errorMessages = new List<string>();
             foreach (var item in validator.Errors)
@@ -68,10 +82,9 @@ namespace Bussines.Concrete
         {
             var model = GetById(id).Data;
 
-            var serviceDelete = ServiceDeleteDto.ToService(model);
-            serviceDelete.Deleted = id;
+            model.Deleted = id;
 
-            _serviceDal.Update(serviceDelete);
+            _serviceDal.Update(model);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
@@ -96,12 +109,12 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<ServiceDto>>(serviceDtos);
         }
 
-        public IDataResult<ServiceUpdateDto> GetById(int id)
+        public IDataResult<Service> GetById(int id)
         {
             var model = _serviceDal.GetById(id);
-            var serviceUpdateDto = ServiceUpdateDto.ToService(model);
+            //var serviceUpdateDto = ServiceUpdateDto.ToService(model);
 
-            return new SuccessDataResult<ServiceUpdateDto>(serviceUpdateDto);
+            return new SuccessDataResult<Service>(model);
         }
 
       

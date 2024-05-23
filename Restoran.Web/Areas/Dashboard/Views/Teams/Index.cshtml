@@ -28,9 +28,9 @@
                             <tr>
                                 <td>@item.Name</td>
                                 <td>@item.LastName</td>
-                                <td>@item.FacebookUrl</td>
-                                <td>@item.TwitterUrl</td>
-                                <td>@item.InstagramUrl</td>
+                                <td>@(item.FacebookUrl.Length > 20 ? item.FacebookUrl.Substring(0, 20) + "..." : item.FacebookUrl)</td>
+                                <td>@(item.TwitterUrl.Length > 20 ? item.TwitterUrl.Substring(0, 20) + "..." : item.TwitterUrl)</td>
+                                <td>@(item.InstagramUrl.Length > 20 ? item.InstagramUrl.Substring(0, 20) + "..." : item.InstagramUrl)</td>
                                 <td>@(item.IsHomePage ? "Bəli" : "Xeyr")</td>
                                 <td>@item.PositionName</td>
 

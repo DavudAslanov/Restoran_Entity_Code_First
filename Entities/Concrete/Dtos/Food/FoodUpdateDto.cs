@@ -21,13 +21,13 @@ namespace Entities.Concrete.Dtos
         {
             FoodUpdateDto dto = new()
             {
-              ID = food.ID,
-              Name = food.Name,
-              Description = food.Description,
-              PhotoUrl = food.PhotoUrl,
-              Price = food.Price,
-              IsHomePage = food.IsHomePage,
-              FoodCategoryID=food.FoodCategoryID
+                ID = food.ID,
+                Name = food.Name,
+                Description = food.Description,
+                PhotoUrl = food.PhotoUrl,
+                Price = food.Price,
+                IsHomePage = food.IsHomePage,
+                FoodCategoryID = food.FoodCategoryID
             };
             return dto;
         }
@@ -35,7 +35,7 @@ namespace Entities.Concrete.Dtos
         {
             Food food = new()
             {
-                ID=dto.ID,
+                ID = dto.ID,
                 Name = dto.Name,
                 Description = dto.Description,
                 PhotoUrl = dto.PhotoUrl,

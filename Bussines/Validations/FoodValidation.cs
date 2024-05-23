@@ -23,15 +23,9 @@ namespace Bussines.Validations
                 .NotEmpty()
                 .WithMessage("Boş Ola Bilməz");
 
-            RuleFor(x=>x.PhotoUrl)
-                .MinimumLength(3)
-                .WithMessage("Şəkil Adı Minimum 3 Simvol Olmalıdır")
-                .MaximumLength (200)
-                .WithMessage("Şəkil Adı Maximum 200 Simvol Olmalıdır")
-                .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
-
-                
+            //RuleFor(x => x.PhotoUrl)
+            //    .NotEmpty()
+            //    .WithMessage("Boş Ola Bilməz");
         }
     }
 }

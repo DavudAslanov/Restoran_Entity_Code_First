@@ -12,10 +12,12 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     {
         private readonly IFoodService _foodService;
         private readonly IFoodCategoryService _foodCategoryService;
-        public FoodController(IFoodService foodService, IFoodCategoryService foodCategoryService)
+        private readonly IWebHostEnvironment _env;
+        public FoodController(IFoodService foodService, IFoodCategoryService foodCategoryService, IWebHostEnvironment env)
         {
             _foodService = foodService;
             _foodCategoryService = foodCategoryService;
+            _env = env;
         }
         public IActionResult Index()
         {
@@ -30,15 +32,15 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(FoodCreateDto dto)
+        public IActionResult Create(FoodCreateDto dto,IFormFile photoUrl)
         {
-            var result = _foodService.Add(dto);
+            var result = _foodService.Add(dto, photoUrl, _env.WebRootPath);
+            ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");
                 if (!result.IsSuccess)
                 {
-                    ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
                     foreach (var errorMessage in individualErrors)
                     {
                         ModelState.Clear();
@@ -48,7 +50,6 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
                 }
             }
             return RedirectToAction("Index");
-
         }
 
         [HttpGet]
@@ -61,16 +62,16 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Edit(FoodUpdateDto dto)
+        public IActionResult Edit(FoodUpdateDto dto, IFormFile photoUrl)  
         {
-            var result = _foodService.Update(dto);
-
+            var result = _foodService.Update(dto, photoUrl, _env.WebRootPath);
+            ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");
                 if (!result.IsSuccess)
                 {
-                    ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
+                  
                     foreach (var errorMessage in individualErrors)
                     {
                         ModelState.Clear();

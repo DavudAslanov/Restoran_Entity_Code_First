@@ -41,9 +41,13 @@ namespace Bussines.Concrete
         public IResult Update(TeamsUpdateDto dto)
         {
             var model = TeamsUpdateDto.ToTeams(dto);
+
             model.LastUpdatedDate = DateTime.Now;
+
             var validator = _Validator.Validate(model);
+
             List<string> errorMessages = new List<string>();
+
             foreach (var item in validator.Errors)
             {
                 errorMessages.Add(item.ErrorMessage);
@@ -61,20 +65,18 @@ namespace Bussines.Concrete
         public IResult Delete(int id)
         {
             var model = GetById(id).Data;
-            var teamDelete = TeamsDeleteDto.ToTeams(model);
-            teamDelete.Deleted = id;
 
-            _team.Update(teamDelete);
+            model.Deleted = id;
+
+            _team.Update(model);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
-        public IDataResult<TeamsUpdateDto> GetById(int id)
+        public IDataResult<Team> GetById(int id)
         {
             var model = _team.GetById(id);
 
-            var teamUpdate = TeamsUpdateDto.ToTeams(model);
-
-            return new SuccessDataResult<TeamsUpdateDto>(teamUpdate);
+            return new SuccessDataResult<Team>(model);
         }
 
         public IDataResult<List<TeamsDto>> GetTeamWithTeamCategories()

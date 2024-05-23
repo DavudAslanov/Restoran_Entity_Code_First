@@ -10,10 +10,12 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     public class FoodCategoryController : Controller
     {
         private readonly IFoodCategoryService _foodCategoryService;
+        private readonly IWebHostEnvironment _env;
 
-        public FoodCategoryController(IFoodCategoryService foodCategoryService)
+        public FoodCategoryController(IFoodCategoryService foodCategoryService, IWebHostEnvironment env)
         {
             _foodCategoryService = foodCategoryService;
+            _env = env;
         }
         public IActionResult Index()
         {
@@ -26,9 +28,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(FoodCategoryCreateDto dto)
+        public IActionResult Create(FoodCategoryCreateDto dto, IFormFile IconName)
         {
-            var result = _foodCategoryService.Add(dto);
+            var result = _foodCategoryService.Add(dto, IconName, _env.WebRootPath);
 
             if (!string.IsNullOrEmpty(result.Message))
             {
@@ -53,9 +55,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Edit(FoodCategoryUpdateDto dto)
+        public IActionResult Edit(FoodCategoryUpdateDto dto, IFormFile IconName)
         {
-            var result = _foodCategoryService.Update(dto);
+            var result = _foodCategoryService.Update(dto, IconName, _env.WebRootPath);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");

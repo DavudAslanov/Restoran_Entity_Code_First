@@ -19,6 +19,6 @@ namespace Bussines.Abstract
 
         IDataResult<List<PositionDto>> GetAll();
 
-        IDataResult<PositionUpdateDto>GetById(int id);
+        IDataResult<Position>GetById(int id);
     }
 }

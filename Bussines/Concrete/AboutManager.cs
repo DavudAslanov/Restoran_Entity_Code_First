@@ -74,13 +74,13 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<AboutDto>>(aboutDtos);
         }
 
-        public IDataResult<AboutUpdateDto> GetById(int id)
+        public IDataResult<About> GetById(int id)
         {
             var model = _aboutdal.GetById(id);
 
-            var aboutUpdateDto = AboutUpdateDto.ToAbout(model);
+            //var aboutUpdateDto = AboutUpdateDto.ToAbout(model);
 
-            return new SuccessDataResult<AboutUpdateDto>(aboutUpdateDto);
+            return new SuccessDataResult<About>(model);
         }
 
        

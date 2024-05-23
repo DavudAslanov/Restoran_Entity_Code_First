@@ -1,24 +1,20 @@
 ﻿using Core.Results.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Bussines.Abstract
 {
     public interface IFoodService
     {
-        IResult Add(FoodCreateDto dto);
+        IResult Add(FoodCreateDto dto,IFormFile photoUrl, string webRootPath);
 
-        IResult Update(FoodUpdateDto dto);
+        IResult Update(FoodUpdateDto dto,IFormFile photoUrl, string webRootPath);
 
         IResult Delete(int id);
 
         IDataResult<List<FoodDto>> GetFoodWithFoodCategories();
 
-        IDataResult<FoodUpdateDto> GetById(int id);
+        IDataResult<Food> GetById(int id);
     }
 }

@@ -10,9 +10,11 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     public class ServiceController : Controller
     {
         private readonly IService _service;
-        public ServiceController(IService service)
+        private readonly IWebHostEnvironment _env;
+        public ServiceController(IService service, IWebHostEnvironment env)
         {
             _service = service;
+            _env = env;
         }
         public IActionResult Index()
         {
@@ -25,9 +27,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(ServiceCreateDto dto)
+        public IActionResult Create(ServiceCreateDto dto, IFormFile IconName)
         {
-            var result=_service.Add(dto);
+            var result=_service.Add(dto, IconName, _env.WebRootPath);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");
@@ -50,9 +52,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Edit(ServiceUpdateDto dto)
+        public IActionResult Edit(ServiceUpdateDto dto, IFormFile IconName)
         {
-            var result=_service.Update(dto);
+            var result=_service.Update(dto, IconName, _env.WebRootPath);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");

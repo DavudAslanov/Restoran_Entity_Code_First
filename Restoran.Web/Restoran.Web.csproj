@@ -10,4 +10,8 @@
     <ProjectReference Include="..\Bussines\Bussines.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="wwwroot\Images\" />
+  </ItemGroup>
+
 </Project>

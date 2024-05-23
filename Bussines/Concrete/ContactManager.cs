@@ -81,21 +81,21 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<ContactDto>>(aboutDtos);
         }
 
-        public IDataResult<ContactUpdateDto> GetById(int id)
+        public IDataResult<Contact> GetById(int id)
         {
             var model = _contactDal.GetById(id);
 
-            var contactUpdateDto = ContactUpdateDto.ToContact(model);
+            //var contactUpdateDto = ContactUpdateDto.ToContact(model);
 
-            return new SuccessDataResult<ContactUpdateDto>(contactUpdateDto);
+            return new SuccessDataResult<Contact>(model);
         }
 
         public IResult Delete(int id)
         {
             var data = GetById(id).Data;
-            var model=ContactDeleteDto.ToContact(data);
-            model.Deleted = id;
-            _contactDal.Update(model);
+            //var model=ContactDeleteDto.ToContact(data);
+            data.Deleted = id;
+            _contactDal.Update(data);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
     }

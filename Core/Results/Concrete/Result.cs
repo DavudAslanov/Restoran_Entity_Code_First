@@ -4,9 +4,9 @@ namespace Core.Results.Concrete
 {
     public class Result :IResult
     {
-        public Result(bool IsSucces)
+        public Result(bool Issucces)
         {
-            IsSuccess = IsSucces;
+            IsSuccess = Issucces;
         }
 
         public Result(string message, bool IsSuccess) : this(IsSuccess)

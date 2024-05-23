@@ -17,6 +17,6 @@ namespace Bussines.Abstract
 
         IDataResult<List<AboutDto>> GetAll();
 
-        IDataResult<AboutUpdateDto> GetById(int id);
+        IDataResult<About> GetById(int id);
     }
 }

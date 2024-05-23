@@ -61,11 +61,11 @@ namespace Bussines.Concrete
         public IResult Delete(int id)
         {
             var model = GetById(id).Data;
-            var positionDelete = PositionDeleteDto.Toposition(model);
+            //var positionDelete = PositionDeleteDto.Toposition(model);
 
-            positionDelete.Deleted = id;
+            model.Deleted = id;
 
-            _positionDal.Update(positionDelete);
+            _positionDal.Update(model);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
@@ -86,13 +86,13 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<PositionDto>>(positionDtos);
         }
 
-        public IDataResult<PositionUpdateDto> GetById(int id)
+        public IDataResult<Position> GetById(int id)
         {
             var model = _positionDal.GetById(id);
 
-            var positionUpdateDto = PositionUpdateDto.ToPosition(model);
+            //var positionUpdateDto = PositionUpdateDto.ToPosition(model);
 
-            return new SuccessDataResult<PositionUpdateDto>(positionUpdateDto);
+            return new SuccessDataResult<Position>(model);
         }
 
       

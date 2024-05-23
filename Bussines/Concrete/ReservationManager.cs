@@ -23,10 +23,10 @@ namespace Bussines.Concrete
         public IResult Delete(int id)
         {
             var model = GetById(id).Data;
-            var positionDelete = ReservationDeleteDto.ToReservation(model);
-            positionDelete.Deleted = id;
+            //var positionDelete = ReservationDeleteDto.ToReservation(model);
+            model.Deleted = id;
 
-            _reservationDal.Update(positionDelete);
+            _reservationDal.Update(model);
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
@@ -52,11 +52,11 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<ReservationDto>>(positionDtos);
         }
 
-        public IDataResult<ReservationUpdateDto> GetById(int id)
+        public IDataResult<Rezervation> GetById(int id)
         {
             var model = _reservationDal.GetById(id);
-            var reservationUpdateDto = ReservationUpdateDto.ToReservation(model);
-            return new SuccessDataResult<ReservationUpdateDto>(reservationUpdateDto);
+            //var reservationUpdateDto = ReservationUpdateDto.ToReservation(model);
+            return new SuccessDataResult<Rezervation>(model);
         }
 
         public IResult Update(ReservationUpdateDto dto)

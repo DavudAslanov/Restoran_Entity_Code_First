@@ -18,6 +18,6 @@ namespace Bussines.Abstract
 
         IDataResult<List<ReservationDto>> GetAll();
 
-        IDataResult<ReservationUpdateDto> GetById(int id);
+        IDataResult<Rezervation> GetById(int id);
     }
 }

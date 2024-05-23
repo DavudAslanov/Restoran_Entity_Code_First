@@ -1,24 +1,20 @@
 ﻿using Core.Results.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 
 namespace Bussines.Abstract
 {
     public interface ITestmonialService
     {
-        IResult Add(TestmonialCreatDto dto);
+        IResult Add(TestmonialCreatDto dto, IFormFile PhotoUrl, string webRootPath);
 
-        IResult Update(TestmonialUpdateDto dto);
+        IResult Update(TestmonialUpdateDto dto, IFormFile PhotoUrl, string webRootPath);
 
         IResult Delete(int id);
 
         IDataResult<List<TestmonialDto>> GetAll();
 
-        IDataResult<TestmonialUpdateDto> GetById(int id);
+        IDataResult<Testmonial> GetById(int id);
     }
 }

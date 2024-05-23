@@ -12,10 +12,12 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     public class TestmonialController : Controller
     {
         private readonly ITestmonialService _testmonialService;
+        private readonly IWebHostEnvironment _env;
 
-        public TestmonialController(ITestmonialService testmonialService)
+        public TestmonialController(ITestmonialService testmonialService, IWebHostEnvironment env)
         {
             _testmonialService = testmonialService;
+            _env = env;
         }
         public IActionResult Index()
         {
@@ -28,9 +30,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(TestmonialCreatDto dto)
+        public IActionResult Create(TestmonialCreatDto dto, IFormFile PhotoUrl)
         {
-            var result = _testmonialService.Add(dto);
+            var result = _testmonialService.Add(dto, PhotoUrl, _env.WebRootPath);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");
@@ -54,9 +56,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
 
         }
         [HttpPost]
-        public IActionResult Edit(TestmonialUpdateDto dto)
+        public IActionResult Edit(TestmonialUpdateDto dto, IFormFile PhotoUrl)
         {
-            var result = _testmonialService.Update(dto);
+            var result = _testmonialService.Update(dto, PhotoUrl, _env.WebRootPath);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");

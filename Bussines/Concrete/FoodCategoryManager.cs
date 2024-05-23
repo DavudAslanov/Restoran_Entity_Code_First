@@ -1,12 +1,13 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
 using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using FluentValidation;
-using System.ComponentModel.DataAnnotations;
+using Microsoft.AspNetCore.Http;
 
 namespace Bussines.Concrete
 {
@@ -19,11 +20,14 @@ namespace Bussines.Concrete
             _foodCategoryDal = foodCategoryDal;
             _Validator = validator;
         }
-        public IResult Add(FoodCategoryCreateDto dto)
+        public IResult Add(FoodCategoryCreateDto dto, IFormFile IconName, string webRootPath)
         {
             var model = FoodCategoryCreateDto.ToFoodCategory(dto);
-            var validator=_Validator.Validate(model);
 
+            model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
+
+            var validator=_Validator.Validate(model);
+            
             List<string> errorMessages = new List<string>();
             foreach (var item in validator.Errors)
             {
@@ -38,10 +42,18 @@ namespace Bussines.Concrete
 
             return new SuccessResult(Uimessage.ADD_MESSAGE);
         }
-        public IResult Update(FoodCategoryUpdateDto dto)
+        public IResult Update(FoodCategoryUpdateDto dto, IFormFile IconName, string webRootPath)
         {
             var model = FoodCategoryUpdateDto.ToFoodCategory(dto);
-
+            var value = GetById(dto.ID).Data;
+            if (IconName == null)
+            {
+                model.IconName = value.IconName;
+            }
+            else
+            {
+                model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
+            }
             model.LastUpdatedDate = DateTime.Now;
             var validator = _Validator.Validate(model);
             List<string> errorMessages = new List<string>();
@@ -62,8 +74,8 @@ namespace Bussines.Concrete
 
         public IResult Delete(int id)
         {
-            var data=GetById(id).Data;
-            var model =FoodCategoryDeleteDto.ToFoodCategory(data);
+            var model=GetById(id).Data;
+            //var model =FoodCategoryDeleteDto.ToFoodCategory(data);
             model.Deleted = id;
 
 
@@ -90,13 +102,13 @@ namespace Bussines.Concrete
             return new SuccessDataResult<List<FoodCategoryDto>>(aboutDtos);
         }
 
-        public IDataResult<FoodCategoryUpdateDto> GetById(int id)
+        public IDataResult<FoodCategory> GetById(int id)
         {
             var model = _foodCategoryDal.GetById(id);
 
-            var foodUpdateDto = FoodCategoryUpdateDto.ToFoodCategory(model);
+            //var foodUpdateDto = FoodCategoryUpdateDto.ToFoodCategory(model);
 
-            return new SuccessDataResult<FoodCategoryUpdateDto>(foodUpdateDto);
+            return new SuccessDataResult<FoodCategory>(model);
         }
 
        

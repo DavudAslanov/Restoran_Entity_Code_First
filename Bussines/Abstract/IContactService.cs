@@ -19,7 +19,7 @@ namespace Bussines.Abstract
 
         IDataResult<List<ContactDto>> GetAll();
 
-        IDataResult<ContactUpdateDto> GetById(int id);
+        IDataResult<Contact> GetById(int id);
 
 
     }
