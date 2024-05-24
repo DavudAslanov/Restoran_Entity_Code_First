@@ -26,7 +26,7 @@
                                 <td>@item.Name</td>
                                 <td>@(item.Description.Length > 20 ? item.Description.Substring(0, 20) + "..." : item.Description)</td>
                                 <td>@(item.IsHomePage ? "Bəli":"Xeyr")</td>
-                                <td><img src="@item.IconName" style="width:100px; height:100px;" alt="Icon Images" /></td>
+                                <td>@item.IconName</td>
 
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.ID">

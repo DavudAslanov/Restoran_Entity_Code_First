@@ -13,6 +13,7 @@ namespace Bussines.Abstract
     {
 
         IResult Update(ReservationUpdateDto dto);
+        IResult BookInAdvance(ReservationDto dto);
 
         IResult Delete(int id);
 

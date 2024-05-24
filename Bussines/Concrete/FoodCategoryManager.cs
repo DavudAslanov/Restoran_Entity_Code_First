@@ -75,7 +75,6 @@ namespace Bussines.Concrete
         public IResult Delete(int id)
         {
             var model=GetById(id).Data;
-            //var model =FoodCategoryDeleteDto.ToFoodCategory(data);
             model.Deleted = id;
 
 
@@ -90,7 +89,7 @@ namespace Bussines.Concrete
 
             foreach (var model in models)
             {
-                FoodCategoryDto dto = new FoodCategoryDto
+                FoodCategoryDto dto = new FoodCategoryDto()
                 {
                    Id=model.ID,
                    Name=model.Name,
@@ -105,8 +104,6 @@ namespace Bussines.Concrete
         public IDataResult<FoodCategory> GetById(int id)
         {
             var model = _foodCategoryDal.GetById(id);
-
-            //var foodUpdateDto = FoodCategoryUpdateDto.ToFoodCategory(model);
 
             return new SuccessDataResult<FoodCategory>(model);
         }

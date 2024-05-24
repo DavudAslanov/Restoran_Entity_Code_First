@@ -12,9 +12,9 @@ namespace Bussines.Abstract
 {
     public interface IService
     {
-        IResult Add(ServiceCreateDto dto, IFormFile IconName, string webRootPath);
+        IResult Add(ServiceCreateDto dto);
 
-        IResult Update(ServiceUpdateDto dto, IFormFile IconName, string webRootPath);
+        IResult Update(ServiceUpdateDto dto);
 
         IResult Delete(int id);
 

@@ -1,10 +1,12 @@
 ﻿using Bussines.Abstract;
 using Entities.Concrete.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class AboutController : Controller
     {
         private readonly IAboutService _aboutService;
@@ -51,7 +53,6 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             if (!result.IsSuccess)
             {
                 ModelState.AddModelError("Description",result.Message);
-                //ModelState.Clear();
                 return View(dto);
                 
             }

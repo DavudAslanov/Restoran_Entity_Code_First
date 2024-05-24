@@ -17,6 +17,8 @@ namespace Restoran.Web.ViewModels
 
         public List<PositionDto> PositionsDto { get; set; }
 
+        public List<ServiceDto> ServicesDto { get; set; }
+        public ReservationDto ReservationDto { get; set; }
 
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿
+using Entities.Concrete.TableModels;
 
 namespace Entities.Concrete.Dtos
 {

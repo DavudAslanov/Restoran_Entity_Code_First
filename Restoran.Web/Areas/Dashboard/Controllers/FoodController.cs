@@ -2,12 +2,14 @@
 using Bussines.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class FoodController : Controller
     {
         private readonly IFoodService _foodService;

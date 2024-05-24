@@ -6,7 +6,9 @@ using DataAcess.Abstract;
 using DataAcess.Concrete;
 using DataAcess.Context.SqlDbContext;
 using Entities.Concrete.TableModels;
+using Entities.Concrete.TableModels.Membership;
 using FluentValidation;
+using Microsoft.AspNetCore.Identity;
 
 namespace Restoran.Web
 {
@@ -19,12 +21,28 @@ namespace Restoran.Web
             // Add services to the container.
             builder.Services.AddControllersWithViews();
 
-            //Dependesy Injection
-            //FoodDal
-            builder.Services.AddDbContext<AppDbcontext>();
-            //Teamdal
-            builder.Services.AddDbContext<AppDbcontext>();
+            builder.Services.AddAuthentication();
+            builder.Services.AddAuthorization();
 
+
+            builder.Services.AddDbContext<AppDbcontext>()
+                .AddIdentity<ApplicationUser,ApplicationRole>()
+                .AddEntityFrameworkStores<AppDbcontext>();
+
+            builder.Services.Configure<IdentityOptions>(options =>
+            {
+                options.Password.RequireDigit = false;
+                options.Password.RequireNonAlphanumeric = false;
+                options.Password.RequireUppercase = false;
+                options.Password.RequireLowercase = false;
+                options.Password.RequiredLength = 5;
+                options.User.RequireUniqueEmail = true;
+
+            });
+
+            //Teamdal
+            //builder.Services.AddDbContext<AppDbcontext>();
+            //Dependesy Injection
             builder.Services.AddScoped<IAboutDal, AboutDal>();
             builder.Services.AddScoped<IAboutService, AboutManager>();
 
@@ -79,6 +97,7 @@ namespace Restoran.Web
 
             app.UseRouting();
 
+            app.UseAuthentication();
             app.UseAuthorization();
 
             //app.MapControllerRoute(

@@ -27,11 +27,9 @@ namespace Bussines.Concrete
             _serviceDal = serviceDal;
             _Validator = validator;
         }
-        public IResult Add(ServiceCreateDto dto, IFormFile IconName, string webRootPath)
+        public IResult Add(ServiceCreateDto dto)
         {
             var model=ServiceCreateDto.ToService(dto);
-
-            model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
 
             var validator = _Validator.Validate(model);
 
@@ -49,19 +47,11 @@ namespace Bussines.Concrete
 
             return new SuccessResult(Uimessage.ADD_MESSAGE);
         }
-        public IResult Update(ServiceUpdateDto dto, IFormFile IconName, string webRootPath)
+        public IResult Update(ServiceUpdateDto dto)
         {
             var model=ServiceUpdateDto.ToService( dto);
             model.LastUpdatedDate = DateTime.Now;
-            var value = GetById(dto.ID).Data;
-            if (IconName == null)
-            {
-                model.IconName = value.IconName;
-            }
-            else
-            {
-                model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
-            }
+    
             var validator = _Validator.Validate(model);
             List<string> errorMessages = new List<string>();
             foreach (var item in validator.Errors)

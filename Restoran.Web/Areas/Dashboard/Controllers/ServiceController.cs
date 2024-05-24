@@ -2,19 +2,19 @@
 using Bussines.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class ServiceController : Controller
     {
         private readonly IService _service;
-        private readonly IWebHostEnvironment _env;
-        public ServiceController(IService service, IWebHostEnvironment env)
+        public ServiceController(IService service)
         {
             _service = service;
-            _env = env;
         }
         public IActionResult Index()
         {
@@ -27,9 +27,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(ServiceCreateDto dto, IFormFile IconName)
+        public IActionResult Create(ServiceCreateDto dto)
         {
-            var result=_service.Add(dto, IconName, _env.WebRootPath);
+            var result=_service.Add(dto);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");
@@ -52,9 +52,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Edit(ServiceUpdateDto dto, IFormFile IconName)
+        public IActionResult Edit(ServiceUpdateDto dto)
         {
-            var result=_service.Update(dto, IconName, _env.WebRootPath);
+            var result=_service.Update(dto);
             if (!string.IsNullOrEmpty(result.Message))
             {
                 var individualErrors = result.Message.Split(", ");

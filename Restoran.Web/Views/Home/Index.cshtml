@@ -27,54 +27,24 @@
 <div class="container-xxl py-5">
     <div class="container">
         <div class="row g-4">
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-user-tie text-primary mb-4"></i>
-                        <h5>Usta Aşpazlar</h5>
-                        <p>
-                            Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                            amet diam
-                        </p>
+            @foreach (var item in Model.ServicesDto)
+            {
+                <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.1s">
+
+                    <div class="service-item rounded pt-3">
+
+                        <div class="p-4">
+                            <i class="@item.IconName"></i>
+                            <h5>@item.Name</h5>
+                            <p>
+                                @item.Description
+                            </p>
+                        </div>
+
                     </div>
+
                 </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.3s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-utensils text-primary mb-4"></i>
-                        <h5>Quality Food</h5>
-                        <p>
-                            Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                            amet diam
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.5s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-cart-plus text-primary mb-4"></i>
-                        <h5>Online Order</h5>
-                        <p>
-                            Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                            amet diam
-                        </p>
-                    </div>
-                </div>
-            </div>
-            <div class="col-lg-3 col-sm-6 wow fadeInUp" data-wow-delay="0.7s">
-                <div class="service-item rounded pt-3">
-                    <div class="p-4">
-                        <i class="fa fa-3x fa-headset text-primary mb-4"></i>
-                        <h5>24/7 Service</h5>
-                        <p>
-                            Diam elitr kasd sed at elitr sed ipsum justo dolor sed clita
-                            amet diam
-                        </p>
-                    </div>
-                </div>
-            </div>
+            }
         </div>
     </div>
 </div>
@@ -270,11 +240,11 @@
                     Reservation
                 </h5>
                 <h1 class="text-white mb-4">Book A Table Online</h1>
-                <form>
+                <form asp-action="Index" method="post" enctype="multipart/form-data">
                     <div class="row g-3">
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="text"
+                                <input asp-for="@Model.ReservationDto.CustomerName"
                                        class="form-control"
                                        id="name"
                                        placeholder="Your Name" />
@@ -283,7 +253,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <input type="email"
+                                <input asp-for="@Model.ReservationDto.Email"
                                        class="form-control"
                                        id="email"
                                        placeholder="Your Email" />
@@ -294,7 +264,7 @@
                             <div class="form-floating date"
                                  id="date3"
                                  data-target-input="nearest">
-                                <input type="text"
+                                <input asp-for="@Model.ReservationDto.ReservationDate" 
                                        class="form-control datetimepicker-input"
                                        id="datetime"
                                        placeholder="Date & Time"
@@ -305,7 +275,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-floating">
-                                <select class="form-select" id="select1">
+                                <select asp-for="@Model.ReservationDto.PeopleCount" class="form-select" id="select1">
                                     <option value="1">People 1</option>
                                     <option value="2">People 2</option>
                                     <option value="3">People 3</option>
@@ -315,7 +285,7 @@
                         </div>
                         <div class="col-12">
                             <div class="form-floating">
-                                <textarea class="form-control"
+                                <textarea class="form-control" asp-for="@Model.ReservationDto.Message"
                                           placeholder="Special Request"
                                           id="message"
                                           style="height: 100px"></textarea>
@@ -410,7 +380,7 @@
             <h1 class="mb-5">Our Clients Say!!!</h1>
         </div>
         <div class="owl-carousel testimonial-carousel">
-            @foreach(var item in Model.TestmonialsDto)
+            @foreach (var item in Model.TestmonialsDto)
             {
                 <div class="testimonial-item bg-transparent border rounded p-4">
                     <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>

@@ -1,10 +1,12 @@
 ﻿using Bussines.Abstract;
 using Entities.Concrete.Dtos;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class ContactController : Controller
     {   
         private readonly IContactService _contactService;

@@ -13,17 +13,28 @@ namespace Bussines.Concrete
     public class ReservationManager : IReservationService
     {
         private readonly IRezervationDal _reservationDal;
-        private readonly IValidator<Rezervation> _Validator;
+        private readonly IValidator<Rezervation> _validator;
         public ReservationManager(IRezervationDal reservationDal, IValidator<Rezervation> validator)
         {
             _reservationDal = reservationDal;
-            _Validator = validator;
+            _validator = validator;
+        }
+
+        public IResult BookInAdvance(ReservationDto dto)
+        {
+            var model = ReservationDto.ToReservation(dto);
+            var validation = _validator.Validate(model);
+            if (!validation.IsValid)
+            {
+                return new ErrorResult("Error");
+            }
+            _reservationDal.Add(model);
+            return new SuccessResult();
         }
 
         public IResult Delete(int id)
         {
             var model = GetById(id).Data;
-            //var positionDelete = ReservationDeleteDto.ToReservation(model);
             model.Deleted = id;
 
             _reservationDal.Update(model);
@@ -39,13 +50,13 @@ namespace Bussines.Concrete
             {
                 ReservationDto dto = new ReservationDto
                 {
-                   ID= model.ID,
-                   CustomerName= model.CustomerName,
-                   Email= model.Email,
-                   Iscontacted= model.Iscontacted,
-                   Message= model.Message,
-                   PeopleCount = model.PeopleCount,
-                   ReservationDate= model.ReservationDate,
+                    ID = model.ID,
+                    CustomerName = model.CustomerName,
+                    Email = model.Email,
+                    Iscontacted = model.Iscontacted,
+                    Message = model.Message,
+                    PeopleCount = model.PeopleCount,
+                    ReservationDate = model.ReservationDate,
                 };
                 positionDtos.Add(dto);
             }
@@ -55,7 +66,6 @@ namespace Bussines.Concrete
         public IDataResult<Rezervation> GetById(int id)
         {
             var model = _reservationDal.GetById(id);
-            //var reservationUpdateDto = ReservationUpdateDto.ToReservation(model);
             return new SuccessDataResult<Rezervation>(model);
         }
 
@@ -64,7 +74,7 @@ namespace Bussines.Concrete
             var model = ReservationUpdateDto.ToReservation(dto);
             model.LastUpdatedDate = DateTime.Now;
 
-            var validator = _Validator.Validate(model);
+            var validator = _validator.Validate(model);
             List<string> errorMessages = new List<string>();
             foreach (var item in validator.Errors)
             {

@@ -1,10 +1,13 @@
 ﻿using Bussines.Abstract;
 using Entities.Concrete.Dtos;
+using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace Restoran.Web.Areas.Dashboard.Controllers
 {
     [Area("Dashboard")]
+    [Authorize]
     public class ReservationController : Controller
     {
         private readonly IReservationService _reservationService;
@@ -43,6 +46,18 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             }
             return RedirectToAction("Index");
         }
-       
+        [HttpPost]
+        public IActionResult Delete(int id)
+        {
+            var result = _reservationService.Delete(id);
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(result);
+        }
+
+
+
     }
 }

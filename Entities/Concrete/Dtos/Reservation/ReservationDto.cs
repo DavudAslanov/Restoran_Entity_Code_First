@@ -20,7 +20,6 @@ namespace Entities.Concrete.Dtos
         {
             ReservationDto dto = new ReservationDto()
             {
-               ID = rezervation.ID,
                CustomerName = rezervation.CustomerName,
                Email = rezervation.Email,
                PeopleCount = rezervation.PeopleCount,
@@ -31,6 +30,20 @@ namespace Entities.Concrete.Dtos
             List<ReservationDto> dtoList = new List<ReservationDto>();
             dtoList.Add(dto);
             return dtoList;
+        }
+
+        public static Rezervation ToReservation(ReservationDto dto)
+        {
+            Rezervation reservation = new Rezervation()
+            {
+                CustomerName = dto.CustomerName,
+                Email = dto.Email,
+                PeopleCount = dto.PeopleCount,
+                Iscontacted = dto.Iscontacted,
+                Message = dto.Message,
+                ReservationDate = dto.ReservationDate
+            };
+            return reservation;
         }
 
     }
