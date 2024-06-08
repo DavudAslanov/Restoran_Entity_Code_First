@@ -1,8 +1,10 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
 using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
@@ -20,51 +22,32 @@ namespace Bussines.Concrete
             _foodCategoryDal = foodCategoryDal;
             _Validator = validator;
         }
-        public IResult Add(FoodCategoryCreateDto dto, IFormFile IconName, string webRootPath)
+        public IResult Add(FoodCategoryCreateDto dto)
         {
             var model = FoodCategoryCreateDto.ToFoodCategory(dto);
 
-            model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
+            var validator = ValidationTool.Validate(new FoodCategoryValidation(), model, out List<ValidationErrorModel> errors);
 
-            var validator=_Validator.Validate(model);
-            
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _foodCategoryDal.Add(model);
 
             return new SuccessResult(Uimessage.ADD_MESSAGE);
         }
-        public IResult Update(FoodCategoryUpdateDto dto, IFormFile IconName, string webRootPath)
+        public IResult Update(FoodCategoryUpdateDto dto)
         {
             var model = FoodCategoryUpdateDto.ToFoodCategory(dto);
             var value = GetById(dto.ID).Data;
-            if (IconName == null)
-            {
-                model.IconName = value.IconName;
-            }
-            else
-            {
-                model.IconName = PictureHelper.UploadImage(IconName, webRootPath);
-            }
+      
             model.LastUpdatedDate = DateTime.Now;
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            
+            var validator = ValidationTool.Validate(new FoodCategoryValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _foodCategoryDal.Update(model);
 
@@ -74,26 +57,26 @@ namespace Bussines.Concrete
 
         public IResult Delete(int id)
         {
-            var model=GetById(id).Data;
+            var model = GetById(id).Data;
             model.Deleted = id;
 
 
             _foodCategoryDal.Update(model);
-             return new SuccessResult(Uimessage.DELETED_MESSAGE);
+            return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
 
         public IDataResult<List<FoodCategoryDto>> GetAllFoodCategories()
         {
-            var models = _foodCategoryDal.GetAll(x=>x.Deleted==0);
+            var models = _foodCategoryDal.GetAll(x => x.Deleted == 0);
             List<FoodCategoryDto> aboutDtos = new List<FoodCategoryDto>();
 
             foreach (var model in models)
             {
                 FoodCategoryDto dto = new FoodCategoryDto()
                 {
-                   Id=model.ID,
-                   Name=model.Name,
-                   IconName=model.IconName,
+                    Id = model.ID,
+                    Name = model.Name,
+                    IconName = model.IconName,
                 };
                 aboutDtos.Add(dto);
             }
@@ -108,6 +91,6 @@ namespace Bussines.Concrete
             return new SuccessDataResult<FoodCategory>(model);
         }
 
-       
+
     }
 }

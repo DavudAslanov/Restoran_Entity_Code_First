@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -14,27 +15,27 @@ namespace Bussines.Validations
         {
             RuleFor(x => x.Name)
                 .MinimumLength(3)
-                .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(150)
-                .WithMessage("Maximum Ad 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(150,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz!");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x => x.Description)
                 .MinimumLength(3)
-                .WithMessage("Minimum Açıqlama 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Açıqlama"))
                 .MaximumLength(2000)
-                .WithMessage("Maximum Açıqlama 2000 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(2000,"Açıqlama"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz!");
+                .WithMessage(Uimessage.GetRequiredMessage("Açıqlama"));
 
             RuleFor(x => x.IconName)
             .MinimumLength(3)
-            .WithMessage("Minimum İcon Adı 3 Simvol Olmalıdır")
+            .WithMessage(Uimessage.GetMinLengthMessage(3,"Icon Adı"))
             .MaximumLength(100)
-            .WithMessage("Maximum İcon Adı 2000 Simvol Olmalıdır")
+            .WithMessage(Uimessage.GetMaxLengthMessage(100, "Icon Adı"))
             .NotEmpty()
-            .WithMessage("Boş Ola Bilməz!");
+            .WithMessage(Uimessage.GetRequiredMessage("Icon Adı"));
 
 
         }

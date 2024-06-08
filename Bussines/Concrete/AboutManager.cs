@@ -1,7 +1,10 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
+using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
@@ -13,6 +16,7 @@ namespace Bussines.Concrete
     {
         private readonly IAboutDal _aboutdal;
         private readonly IValidator<About> _Validator;
+
         public AboutManager(IAboutDal aboutDal,IValidator<About> validator)
         {
             _aboutdal = aboutDal;
@@ -22,16 +26,11 @@ namespace Bussines.Concrete
         {
             var model = AboutCreateDto.ToAbout(dto);
        
-            var validator=_Validator.Validate(model);
+            var validator = ValidationTool.Validate(new AboutValidation(), model, out List<ValidationErrorModel> errors);
 
-            string errorMessage = "";
-            foreach(var item in validator.Errors)
+            if (!validator)
             {
-                errorMessage = item.ErrorMessage;
-            }
-            if(!validator.IsValid)
-            {
-                return new ErrorResult(errorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _aboutdal.Add(model);
 
@@ -40,23 +39,19 @@ namespace Bussines.Concrete
         public IResult Update(AboutUpdateDto dto)
         {
             var model=AboutUpdateDto.ToAbout(dto);
-            model.LastUpdatedDate = DateTime.Now;
-            var validator = _Validator.Validate(model);
 
-            string errorMessage = "";
-            foreach (var item in validator.Errors)
+            model.LastUpdatedDate = DateTime.Now;
+
+            var validator = ValidationTool.Validate(new AboutValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessage = item.ErrorMessage;
-            }
-            if (!validator.IsValid)
-            {
-                return new ErrorResult(errorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _aboutdal.Update(model);
 
             return new SuccessResult(Uimessage.UPDATE_MESSAGE);
         }
-
         public IDataResult<List<AboutDto>> GetAll()
         {
             var models = _aboutdal.GetAll(x=>x.Deleted==0);
@@ -73,16 +68,11 @@ namespace Bussines.Concrete
             }
             return new SuccessDataResult<List<AboutDto>>(aboutDtos);
         }
-
         public IDataResult<About> GetById(int id)
         {
             var model = _aboutdal.GetById(id);
 
-            //var aboutUpdateDto = AboutUpdateDto.ToAbout(model);
-
             return new SuccessDataResult<About>(model);
         }
-
-       
     }
 }

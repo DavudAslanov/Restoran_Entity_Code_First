@@ -1,8 +1,10 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
 using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
@@ -26,20 +28,22 @@ namespace Bussines.Concrete
         public IResult Add(FoodCreateDto dto,IFormFile photoUrl, string webRootPath)
         {
             var model = FoodCreateDto.ToFood(dto);
-
+            if (photoUrl == null || photoUrl.Length == 0)
+            {
+                var erors = new List<ValidationErrorModel>();
+                erors.Add(new ValidationErrorModel {  ErrorMessage = Uimessage.PHOTO_SELECTED });
+                return new ErrorResult(erors.ValidationErrorMessagesWithNewLine());
+            }
             model.PhotoUrl = PictureHelper.UploadImage(photoUrl, webRootPath);
 
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            var validator = ValidationTool.Validate(new FoodValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
-            }
+          
+
             _foodDal.Add(model);
             return new SuccessResult(Uimessage.ADD_MESSAGE);
         }
@@ -56,16 +60,12 @@ namespace Bussines.Concrete
             {
                 model.PhotoUrl = PictureHelper.UploadImage(photoUrl, webRootPath);
             }
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+
+            var validator = ValidationTool.Validate(new FoodValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _foodDal.Update(model);
 

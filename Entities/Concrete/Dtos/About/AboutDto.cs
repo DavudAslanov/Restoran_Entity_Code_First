@@ -18,5 +18,14 @@ namespace Entities.Concrete.Dtos
             dtoList.Add(dto);
             return dtoList;
         }
+        public static About ToAbouts(AboutDto dto)
+        {
+            About about = new()
+            {
+              Description= dto.Description,
+            };
+            return about;
+        }
+
     }
 }

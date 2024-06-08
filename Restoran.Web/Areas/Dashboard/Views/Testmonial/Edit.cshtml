@@ -17,7 +17,7 @@
             </div>
             <div class="form-group">
                 <label asp-for="FeedBack" class="control-label">Açıqlaması</label>
-                <textarea asp-for="FeedBack" class="form-control"></textarea>
+                <textarea id="description" asp-for="FeedBack" class="form-control"></textarea>
                 <span asp-validation-for="FeedBack" class="text-danger"></span>
             </div>
             <div class="form-group" style="min-height:300px;">
@@ -41,3 +41,8 @@
 <div>
     <a asp-action="Index">@DeafultConstantValue.RETURN_TO_BACK</a>
 </div>
+<script src="https://cdn.ckeditor.com/ckeditor5/41.4.2/classic/ckeditor.js"></script>
+<script>
+    ClassicEditor
+        .create(document.querySelector('#description'))
+</script>

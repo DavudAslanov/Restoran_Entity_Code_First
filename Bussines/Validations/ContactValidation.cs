@@ -1,11 +1,6 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bussines.Validations
 {
@@ -15,35 +10,35 @@ namespace Bussines.Validations
         {
             RuleFor(x => x.Name)
                 .MinimumLength(3)
-                .WithMessage(" Ad Minimum 4 Simvol olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(100)
-                .WithMessage("Ad Maximum 100 Simvol olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(100,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x => x.Email)
                 .MinimumLength(3)
-                .WithMessage("Email Minimum 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Email"))
                 .MaximumLength(100)
-                .WithMessage("Email Maximum 100 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(100,"Email"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Email"));
 
             RuleFor(x=>x.Title) 
                 .MinimumLength(4)
-                .WithMessage(" Başlıq Minimum 4 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(4,"Başlıq"))
                 .MaximumLength(150)
-                .WithMessage("Maximum 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(150,"Başlıq"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz!");
+                .WithMessage(Uimessage.GetRequiredMessage("Başlıq"));
 
             RuleFor(x => x.Message)
                 .MinimumLength(4)
-                .WithMessage("Mesaj Minimum 4 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(4,"Mesaj"))
                 .MaximumLength(2000)
-                .WithMessage("Mesaj Maximum 2000 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(2000,"Mesaj"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Mesaj"));
         }
     }
 }

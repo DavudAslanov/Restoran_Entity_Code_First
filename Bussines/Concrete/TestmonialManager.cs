@@ -1,8 +1,10 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
 using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
 using DataAcess.Concrete;
 using Entities.Concrete.Dtos;
@@ -31,17 +33,21 @@ namespace Bussines.Concrete
         public IResult Add(TestmonialCreatDto dto, IFormFile PhotoUrl, string webRootPath)
         {
             var model = TestmonialCreatDto.ToTestmonial(dto);
-            model.PhotoUrl = PictureHelper.UploadImage(PhotoUrl, webRootPath);
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+           
+            if (PhotoUrl == null || PhotoUrl.Length == 0)
             {
-                errorMessages.Add(item.ErrorMessage);
+                var erors = new List<ValidationErrorModel>();
+                erors.Add(new ValidationErrorModel { ErrorMessage = Uimessage.PHOTO_SELECTED });
+                return new ErrorResult(erors.ValidationErrorMessagesWithNewLine());
             }
-            if (!validator.IsValid)
+
+            model.PhotoUrl = PictureHelper.UploadImage(PhotoUrl, webRootPath);
+
+            var validator = ValidationTool.Validate(new TestmonialValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _testmonialDal.Add(model);
 
@@ -61,16 +67,11 @@ namespace Bussines.Concrete
                 model.PhotoUrl = PictureHelper.UploadImage(PhotoUrl, webRootPath);
             }
 
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            var validator = ValidationTool.Validate(new TestmonialValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _testmonialDal.Update(model);
 

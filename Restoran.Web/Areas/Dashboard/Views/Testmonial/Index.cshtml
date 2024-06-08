@@ -25,7 +25,7 @@
                             <tr>
                                 <td>@item.FirstName</td>
                                 <td>@item.LastName</td>
-                                <td>@(item.FeedBack.Length > 20 ? item.FeedBack.Substring(0, 20) + "..." : item.FeedBack)</td>
+                                <td>@(Html.Raw(item.FeedBack.Length > 20 ? item.FeedBack.Substring(0, 20) + "..." : item.FeedBack))</td>
                                 <td><img src="@item.PhotoUrl" style="width:100px; height:100px;" alt="Rezervation Images" /></td>
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.ID">

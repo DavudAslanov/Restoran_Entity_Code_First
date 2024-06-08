@@ -49,7 +49,6 @@ namespace Core.DataAcces.Concrete
                 }
             }
         }
-
         public Tentity GetById(int id)
         {
             using (Tcontext context = new Tcontext())
@@ -57,7 +56,6 @@ namespace Core.DataAcces.Concrete
                 return context.Set<Tentity>().FirstOrDefault(x => x.ID == id);
             }
         }
-
         public void Update(Tentity entity)
         {
             using (Tcontext context = new Tcontext())

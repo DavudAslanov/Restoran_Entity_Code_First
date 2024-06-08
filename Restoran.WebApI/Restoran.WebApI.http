@@ -1,0 +1,6 @@
+@Restoran.WebApI_HostAddress = http://localhost:5278
+
+GET {{Restoran.WebApI_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###

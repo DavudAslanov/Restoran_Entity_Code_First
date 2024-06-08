@@ -37,19 +37,14 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Create(FoodCreateDto dto,IFormFile photoUrl)
         {
             var result = _foodService.Add(dto, photoUrl, _env.WebRootPath);
+
             ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
-            if (!string.IsNullOrEmpty(result.Message))
+
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View(dto);
             }
             return RedirectToAction("Index");
         }
@@ -68,19 +63,11 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         {
             var result = _foodService.Update(dto, photoUrl, _env.WebRootPath);
             ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
-            if (!string.IsNullOrEmpty(result.Message))
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                  
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View();
             }
             return RedirectToAction("Index");
         }

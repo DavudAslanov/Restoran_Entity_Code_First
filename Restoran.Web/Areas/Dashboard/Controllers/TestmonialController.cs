@@ -35,18 +35,11 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Create(TestmonialCreatDto dto, IFormFile PhotoUrl)
         {
             var result = _testmonialService.Add(dto, PhotoUrl, _env.WebRootPath);
-            if (!string.IsNullOrEmpty(result.Message))
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View(dto);
             }
             return RedirectToAction("Index");
         }
@@ -61,18 +54,11 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(TestmonialUpdateDto dto, IFormFile PhotoUrl)
         {
             var result = _testmonialService.Update(dto, PhotoUrl, _env.WebRootPath);
-            if (!string.IsNullOrEmpty(result.Message))
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View();
             }
             return RedirectToAction("Index");
 

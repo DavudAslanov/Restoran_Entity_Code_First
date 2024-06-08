@@ -12,12 +12,11 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     public class FoodCategoryController : Controller
     {
         private readonly IFoodCategoryService _foodCategoryService;
-        private readonly IWebHostEnvironment _env;
 
-        public FoodCategoryController(IFoodCategoryService foodCategoryService, IWebHostEnvironment env)
+
+        public FoodCategoryController(IFoodCategoryService foodCategoryService)
         {
             _foodCategoryService = foodCategoryService;
-            _env = env;
         }
         public IActionResult Index()
         {
@@ -30,22 +29,15 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(FoodCategoryCreateDto dto, IFormFile IconName)
+        public IActionResult Create(FoodCategoryCreateDto dto)
         {
-            var result = _foodCategoryService.Add(dto, IconName, _env.WebRootPath);
+            var result = _foodCategoryService.Add(dto);
 
-            if (!string.IsNullOrEmpty(result.Message))
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View(dto);
             }
             return RedirectToAction("Index");
         }
@@ -57,21 +49,14 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Edit(FoodCategoryUpdateDto dto, IFormFile IconName)
+        public IActionResult Edit(FoodCategoryUpdateDto dto)
         {
-            var result = _foodCategoryService.Update(dto, IconName, _env.WebRootPath);
-            if (!string.IsNullOrEmpty(result.Message))
+            var result = _foodCategoryService.Update(dto);
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View();
             }
             return RedirectToAction("Index");
         }
@@ -80,6 +65,7 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Delete(int id)
         {
             var result = _foodCategoryService.Delete(id);
+
             if (!result.IsSuccess)
                 return RedirectToAction("Index");
 

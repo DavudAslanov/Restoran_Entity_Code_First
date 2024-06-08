@@ -1,7 +1,10 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
+using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 
@@ -23,10 +26,11 @@ namespace Bussines.Concrete
         public IResult BookInAdvance(ReservationDto dto)
         {
             var model = ReservationDto.ToReservation(dto);
-            var validation = _validator.Validate(model);
-            if (!validation.IsValid)
+            var validator = ValidationTool.Validate(new ReservationValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                return new ErrorResult("Error");
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _reservationDal.Add(model);
             return new SuccessResult();
@@ -74,16 +78,11 @@ namespace Bussines.Concrete
             var model = ReservationUpdateDto.ToReservation(dto);
             model.LastUpdatedDate = DateTime.Now;
 
-            var validator = _validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            var validator = ValidationTool.Validate(new ReservationValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _reservationDal.Update(model);
 

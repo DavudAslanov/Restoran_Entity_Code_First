@@ -1,10 +1,11 @@
 ﻿@model HomeViewModel
+
 <div class="container-xxl py-5 bg-dark hero-header mb-5">
     <div class="container my-5 py-5">
         <div class="row align-items-center g-5">
             <div class="col-lg-6 text-center text-lg-start">
                 <h1 class="display-3 text-white animated slideInLeft">
-                    Bizdən həzz alın<br />Ləzzətli Yemək
+                    Bizdən həzz alın<br/>Ləzzətli Yemək
                 </h1>
                 <p class="text-white animated slideInLeft mb-4 pb-2">
                     Xoş gəldiniz! Bu, yemək həvəskarları üçün xüsusi olaraq
@@ -37,7 +38,7 @@
                             <i class="@item.IconName"></i>
                             <h5>@item.Name</h5>
                             <p>
-                                @item.Description
+                                @Html.Raw(item.Description)
                             </p>
                         </div>
 
@@ -88,9 +89,8 @@
                 </h1>
                 @foreach (var item in Model.AboutsDto)
                 {
-                    <p>@item.Description</p>
+                    <p>@Html.Raw(item.Description)</p>
                 }
-
                 <div class="row g-4 mb-4">
                     <div class="col-sm-6">
                         <div class="d-flex align-items-center border-start border-5 border-primary px-3">
@@ -164,7 +164,7 @@
                                             <span>@item.Name</span>
                                             <span class="text-primary">$@item.Price</span>
                                         </h5>
-                                        <small class="fst-italic">@item.Description</small>
+                                        <small class="fst-italic">@Html.Raw(item.Description)</small>
                                     </div>
                                 </div>
                             </div>
@@ -228,7 +228,7 @@
                 <button type="button"
                         class="btn-play"
                         data-bs-toggle="modal"
-                        data-src="https://www.youtube.com/embed/DWRcNpR6Kdc"
+                        data-src=" https://www.youtube.com/watch?v=m8UHe8AdAng"
                         data-bs-target="#videoModal">
                     <span></span>
                 </button>
@@ -352,6 +352,7 @@
                         </div>
                         <h5 class="mb-0">@item.Name @item.LastName</h5>
                         <small>@item.PositionName</small>
+
                         <div class="d-flex justify-content-center mt-3">
                             <a class="btn btn-square btn-primary mx-1" href="@item.FacebookUrl">
                                 <i class="fab fa-facebook-f"></i>
@@ -385,7 +386,7 @@
                 <div class="testimonial-item bg-transparent border rounded p-4">
                     <i class="fa fa-quote-left fa-2x text-primary mb-3"></i>
                     <p>
-                        @item.FeedBack
+                        @Html.Raw(item.FeedBack)
                     </p>
                     <div class="d-flex align-items-center">
                         <img class="img-fluid flex-shrink-0 rounded-circle"

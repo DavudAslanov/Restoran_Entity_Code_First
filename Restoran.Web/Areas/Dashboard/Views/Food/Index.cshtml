@@ -27,7 +27,7 @@
                             <tr>
                                 <td>@item.Name</td>
                                 <td>@item.FoodCategoryName</td>
-                                <td>@(item.Description.Length>20 ? item.Description.Substring(0,20)+"...": item.Description)</td>
+                                <td>@(Html.Raw(item.Description.Length > 20 ? item.Description.Substring(0, 20) + "..." : item.Description))</td>
                                 <td>@(item.IsHomePage?"Bəli":"Xeyr")</td>
                                 <td><img src="@item.PhotoUrl" style="width:100px; height:100px;" alt="Food Images"  /></td>
                                 <td>@item.Price</td>

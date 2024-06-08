@@ -8,7 +8,7 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     [Area("Dashboard")]
     [Authorize]
     public class ContactController : Controller
-    {   
+    {
         private readonly IContactService _contactService;
         public ContactController(IContactService contactService)
         {
@@ -27,51 +27,39 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         [HttpPost]
         public IActionResult Create(ContactCreateDto dto)
         {
-            var result= _contactService.Add(dto);
-            if (!string.IsNullOrEmpty(result.Message))
+            var result = _contactService.Add(dto);
+
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.Clear();
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View(dto);
             }
             return RedirectToAction("Index");
         }
         [HttpGet]
         public IActionResult Edit(int id)
         {
-            var data= _contactService.GetById(id).Data;
-           return View(data);
+            var data = _contactService.GetById(id).Data;
+            return View(data);
         }
         [HttpPost]
         public IActionResult Edit(ContactUpdateDto dto)
         {
-            var result= _contactService.Update(dto);
-            if (!string.IsNullOrEmpty(result.Message))
+            var result = _contactService.Update(dto);
+            if (!result.IsSuccess)
             {
-                var individualErrors = result.Message.Split(", ");
-                if (!result.IsSuccess)
-                {
-                    foreach (var errorMessage in individualErrors)
-                    {
-                        ModelState.AddModelError("", errorMessage);
-                    }
-                    return View(dto);
-                }
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View();
             }
             return RedirectToAction("Index");
         }
         [HttpPost]
         public IActionResult Delete(int id)
         {
-            var result= _contactService.Delete(id);
-            if(result.IsSuccess)
+            var result = _contactService.Delete(id);
+            if (result.IsSuccess)
             {
                 return RedirectToAction("Index");
             }

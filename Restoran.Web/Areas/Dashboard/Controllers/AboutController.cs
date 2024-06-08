@@ -1,5 +1,6 @@
 ﻿using Bussines.Abstract;
 using Entities.Concrete.Dtos;
+using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
@@ -33,12 +34,11 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             var result = _aboutService.Add(dto);
             if (!result.IsSuccess)
             {
+                ModelState.Clear();
                 ModelState.AddModelError("Description", result.Message);
-                //ModelState.Clear();
                 return View(dto);
             }
             return RedirectToAction("Index");
-           
         }
         [HttpGet]
         public IActionResult Edit(int id)
@@ -50,11 +50,12 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
         public IActionResult Edit(AboutUpdateDto dto)
         {
             var result = _aboutService.Update(dto);
+
             if (!result.IsSuccess)
             {
-                ModelState.AddModelError("Description",result.Message);
-                return View(dto);
-                
+                ModelState.Clear();
+                ModelState.AddModelError("", result.Message);
+                return View();
             }
             return RedirectToAction("Index");
         }

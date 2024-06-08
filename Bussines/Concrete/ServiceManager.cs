@@ -1,19 +1,14 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
 using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
-using DataAcess.Concrete;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using FluentValidation;
-using Microsoft.AspNetCore.Http;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace Bussines.Concrete
 {
@@ -31,17 +26,11 @@ namespace Bussines.Concrete
         {
             var model=ServiceCreateDto.ToService(dto);
 
-            var validator = _Validator.Validate(model);
+            var validator = ValidationTool.Validate(new ServiceValidation(), model, out List<ValidationErrorModel> errors);
 
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _serviceDal.Add(model);
 
@@ -51,17 +40,13 @@ namespace Bussines.Concrete
         {
             var model=ServiceUpdateDto.ToService( dto);
             model.LastUpdatedDate = DateTime.Now;
-    
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            var value = GetById(dto.ID).Data;
+
+            var validator = ValidationTool.Validate(new ServiceValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _serviceDal.Update(model);
 
@@ -102,7 +87,6 @@ namespace Bussines.Concrete
         public IDataResult<Service> GetById(int id)
         {
             var model = _serviceDal.GetById(id);
-            //var serviceUpdateDto = ServiceUpdateDto.ToService(model);
 
             return new SuccessDataResult<Service>(model);
         }

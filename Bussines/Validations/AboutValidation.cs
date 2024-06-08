@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 
 namespace Bussines.Validations
@@ -8,12 +9,12 @@ namespace Bussines.Validations
         public AboutValidation()
         {
             RuleFor(x => x.Description)
-                .MinimumLength(3)
-                .WithMessage("3 simvoldan az Daxil Edilə bilməz")
+            .MinimumLength(3)
+                .WithMessage(Uimessage.GetMinLengthMessage(3, "Açıqlama"))
                 .MaximumLength(2000)
-                .WithMessage("2000 Simvoldan Artıq Ola Bilməz")
+                .WithMessage(Uimessage.GetMaxLengthMessage(2000, "Açıqlama"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz!");
+                .WithMessage(Uimessage.GetRequiredMessage("Açıqlama"));
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -14,35 +15,35 @@ namespace Bussines.Validations
         {
             RuleFor(x => x.CustomerName)
               .MinimumLength(3)
-              .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
+              .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
               .MaximumLength(50)
-              .WithMessage("Maximum Ad 50 Simvol Olmalıdır")
+              .WithMessage(Uimessage.GetMaxLengthMessage(50,"Ad"))
               .NotEmpty()
-              .WithMessage("Boş Ola Bilməz");
+              .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x => x.Email)
                 .MinimumLength(5)
-                .WithMessage("Minimum Email 5 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(5,"Email"))
                 .MaximumLength(50)
-                .WithMessage("Maximum Soyad 50 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50,"Email"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Email"));
 
             RuleFor(x => x.ReservationDate)
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Rezervasiya"));
 
             RuleFor(x => x.PeopleCount)
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Adam Sayı"));
 
             RuleFor(x => x.Message)
               .MinimumLength(3)
-              .WithMessage("Minimum Messaj 3 Simvol Olmalıdır")
+              .WithMessage(Uimessage.GetMinLengthMessage(3,"Mesaj"))
               .MaximumLength(150)
-              .WithMessage("Maximum Messaj 150 Simvol Olmalıdır")
+              .WithMessage(Uimessage.GetMaxLengthMessage(150,"Mesaj"))
               .NotEmpty()
-              .WithMessage("Boş Ola Bilməz");
+              .WithMessage(Uimessage.GetRequiredMessage("Mesaj"));
 
         }
     }

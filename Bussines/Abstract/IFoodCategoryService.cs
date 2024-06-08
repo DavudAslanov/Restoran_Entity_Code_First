@@ -8,9 +8,9 @@ namespace Bussines.Abstract
 {
     public interface IFoodCategoryService
     {
-        IResult Add(FoodCategoryCreateDto dto, IFormFile IconName, string webRootPath);
+        IResult Add(FoodCategoryCreateDto dto);
 
-        IResult Update(FoodCategoryUpdateDto dto, IFormFile IconName, string webRootPath);
+        IResult Update(FoodCategoryUpdateDto dto);
 
         IResult Delete(int id);
 

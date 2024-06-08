@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 
 namespace Bussines.Validations
@@ -9,19 +10,19 @@ namespace Bussines.Validations
         {
             RuleFor(x=>x.Name)
                 .MinimumLength(3)
-                .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(150)
-                .WithMessage("Maximum 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(150,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x=>x.IconName)
                 .MinimumLength(3)
-                .WithMessage("Minimum IconName 3 Simvol olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Icon Adı"))
                 .MaximumLength(200)
-                .WithMessage("Maximum Icon Adı 200 olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(200, "Icon Adı"))
                 .NotEmpty()
-                .WithMessage("Boş Olmalıdır");
+                .WithMessage(Uimessage.GetRequiredMessage("Icon Adı"));
         }
     }
 }

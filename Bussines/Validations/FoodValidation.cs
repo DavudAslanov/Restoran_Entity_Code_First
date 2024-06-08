@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 
 namespace Bussines.Validations
@@ -9,23 +10,23 @@ namespace Bussines.Validations
         {
             RuleFor(x=>x.Name)
                 .MinimumLength(3)
-                .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(150)
-                .WithMessage("Maximum Ad uzunluğu 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(150,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x=>x.Description)
                 .MinimumLength(3)
-                .WithMessage("Açıqlama Uzunluğu Minimum 3 Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Açıqlama"))
                 .MaximumLength(200)
-                .WithMessage("Açıqlama Uzunluğu Maximum 200 Olmalıdır ")
+                .WithMessage(Uimessage.GetMaxLengthMessage(200,"Açıqlama"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Açıqlama"));
 
-            //RuleFor(x => x.PhotoUrl)
-            //    .NotEmpty()
-            //    .WithMessage("Boş Ola Bilməz");
+            RuleFor(x => x.Price)
+              .GreaterThanOrEqualTo(1)
+                  .WithMessage(Uimessage.GetMinLengthMessage(1, "Qiymət"));
         }
     }
 }

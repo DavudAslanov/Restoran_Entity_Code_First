@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -14,11 +15,11 @@ namespace Bussines.Validations
         {
             RuleFor(x => x.Name)
                 .MinimumLength(3)
-                .WithMessage("Ad Minimum 3 Simvol olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(100)
-                .WithMessage("Maximum 100 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(100,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
         }
     }
 }

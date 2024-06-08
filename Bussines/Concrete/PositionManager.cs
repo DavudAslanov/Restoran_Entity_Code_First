@@ -1,7 +1,10 @@
 ﻿using Bussines.Abstract;
 using Bussines.BaseEntities;
+using Bussines.Validations;
+using Core.Extenstion;
 using Core.Results.Abstract;
 using Core.Results.Concrete;
+using Core.Validation;
 using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
@@ -22,17 +25,12 @@ namespace Bussines.Concrete
         public IResult Add(PositionCreateDto dto)
         {
             var model = PositionCreateDto.ToPosition(dto);
-            var validator = _Validator.Validate(model);
 
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            var validator = ValidationTool.Validate(new PositionValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _positionDal.Add(model);
 
@@ -43,16 +41,11 @@ namespace Bussines.Concrete
             var model= PositionUpdateDto.ToPosition(dto);
             model.LastUpdatedDate = DateTime.Now;
 
-            var validator = _Validator.Validate(model);
-            List<string> errorMessages = new List<string>();
-            foreach (var item in validator.Errors)
+            var validator = ValidationTool.Validate(new PositionValidation(), model, out List<ValidationErrorModel> errors);
+
+            if (!validator)
             {
-                errorMessages.Add(item.ErrorMessage);
-            }
-            if (!validator.IsValid)
-            {
-                string erorMessage = string.Join(", ", errorMessages);
-                return new ErrorResult(erorMessage);
+                return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
             _positionDal.Update(model);
 
@@ -61,7 +54,6 @@ namespace Bussines.Concrete
         public IResult Delete(int id)
         {
             var model = GetById(id).Data;
-            //var positionDelete = PositionDeleteDto.Toposition(model);
 
             model.Deleted = id;
 
@@ -89,8 +81,6 @@ namespace Bussines.Concrete
         public IDataResult<Position> GetById(int id)
         {
             var model = _positionDal.GetById(id);
-
-            //var positionUpdateDto = PositionUpdateDto.ToPosition(model);
 
             return new SuccessDataResult<Position>(model);
         }

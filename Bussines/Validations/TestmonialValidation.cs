@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -14,35 +15,35 @@ namespace Bussines.Validations
         {
             RuleFor(x => x.FirstName)
                 .MinimumLength(3)
-                .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(50)
-                .WithMessage("Maximum Ad 100 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x => x.LastName)
                 .MinimumLength(3)
-                .WithMessage("Minimum Soyad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3, "Soyad"))
                 .MaximumLength(50)
-                .WithMessage("Maximum Soyad 100 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50, "Soyad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Soyad"));
 
             RuleFor(x => x.FeedBack)
                 .MinimumLength(3)
-                .WithMessage("Minimum Açıqlama 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Açıqlama"))
                 .MaximumLength(2000)
-                .WithMessage("Maximum Açıqlama 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50, "Açıqlama"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Açıqlama"));
 
             RuleFor(x => x.PhotoUrl)
                 .MinimumLength(3)
-                .WithMessage("Minimum şəkil 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3, "şəkil"))
                 .MaximumLength(150)
-                .WithMessage("Maximum şəkil 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50, "şəkil"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("şəkil"));
 
             
         }

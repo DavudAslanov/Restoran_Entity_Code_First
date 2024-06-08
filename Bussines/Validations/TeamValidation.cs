@@ -1,4 +1,5 @@
-﻿using Entities.Concrete.TableModels;
+﻿using Bussines.BaseEntities;
+using Entities.Concrete.TableModels;
 using FluentValidation;
 using System;
 using System.Collections.Generic;
@@ -14,43 +15,43 @@ namespace Bussines.Validations
         {
             RuleFor(x=>x.Name)
                 .MinimumLength(3)
-                .WithMessage("Minimum Ad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3,"Ad"))
                 .MaximumLength(50)
-                .WithMessage("Maximum Ad 50 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50,"Ad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Ad"));
 
             RuleFor(x=>x.LastName) 
                 .MinimumLength(3)
-                .WithMessage("Minimum Soyad 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3, "Soyad"))
                 .MaximumLength(50)
-                .WithMessage("Maximum Soyad 50 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(50, "Soyad"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Soyad"));
 
             RuleFor(x=>x.FacebookUrl) 
                 .MinimumLength(3)
-                .WithMessage("Minimum Facebook 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3, "Facebook"))
                 .MaximumLength(150)
-                .WithMessage("Maximum Facebook 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(150, "Facebook"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Facebook"));
 
             RuleFor(x => x.TwitterUrl)
                 .MinimumLength(3)
-                .WithMessage("Minimum Twitter 3 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMinLengthMessage(3, "Twitter"))
                 .MaximumLength(150)
-                .WithMessage("Maximum Twitter 150 Simvol Olmalıdır")
+                .WithMessage(Uimessage.GetMaxLengthMessage(150, "Twitter"))
                 .NotEmpty()
-                .WithMessage("Boş Ola Bilməz");
+                .WithMessage(Uimessage.GetRequiredMessage("Twitter"));
 
             RuleFor(x => x.InstagramUrl)
               .MinimumLength(3)
-              .WithMessage("Minimum Instagram 3 Simvol Olmalıdır")
+              .WithMessage(Uimessage.GetMinLengthMessage(3, "Instagram"))
               .MaximumLength(150)
-              .WithMessage("Maximum Instagram 150 Simvol Olmalıdır")
+              .WithMessage(Uimessage.GetMaxLengthMessage(150, "Instagram"))
               .NotEmpty()
-              .WithMessage("Boş Ola Bilməz");
+              .WithMessage(Uimessage.GetRequiredMessage("Instagram"));
         }
     }
 }
