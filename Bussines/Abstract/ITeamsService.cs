@@ -1,6 +1,7 @@
 ﻿using Core.Results.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
+using Microsoft.AspNetCore.Http;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -11,9 +12,9 @@ namespace Bussines.Abstract
 {
     public interface ITeamsService
     {
-        IResult Add(TeamsCreateDto dto);
+        IResult Add(TeamsCreateDto dto, IFormFile PhotoUrl, string webRootPath);
 
-        IResult Update(TeamsUpdateDto dto);
+        IResult Update(TeamsUpdateDto dto, IFormFile PhotoUrl, string webRootPath);
 
         IResult Delete(int id);
 

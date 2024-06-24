@@ -19,6 +19,7 @@
                             <th>Instagram Linki</th>
                             <th>Ana Səhifə</th>
                             <th>Pozisiyası</th>
+                            <th>Şəkil</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -33,6 +34,7 @@
                                 <td>@(item.InstagramUrl.Length > 20 ? item.InstagramUrl.Substring(0, 20) + "..." : item.InstagramUrl)</td>
                                 <td>@(item.IsHomePage ? "Bəli" : "Xeyr")</td>
                                 <td>@item.PositionName</td>
+                                <td><img src="@item.PhotoUrl" style="width:100px; height:100px;" alt="Team Images" /></td>
 
                                 <td>
                                     <a asp-action="Edit" asp-route-id="@item.ID">

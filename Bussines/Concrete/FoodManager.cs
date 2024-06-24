@@ -25,16 +25,18 @@ namespace Bussines.Concrete
             _Validator = validator;
         }
 
-        public IResult Add(FoodCreateDto dto,IFormFile photoUrl, string webRootPath)
+        public IResult Add(FoodCreateDto dto, IFormFile photoUrl, string webRootPath)
         {
             var model = FoodCreateDto.ToFood(dto);
+            //string webRootPath = " ";
+            model.PhotoUrl = PictureHelper.UploadImage(photoUrl,webRootPath);
             if (photoUrl == null || photoUrl.Length == 0)
             {
                 var erors = new List<ValidationErrorModel>();
-                erors.Add(new ValidationErrorModel {  ErrorMessage = Uimessage.PHOTO_SELECTED });
+                erors.Add(new ValidationErrorModel { ErrorMessage = Uimessage.PHOTO_SELECTED });
                 return new ErrorResult(erors.ValidationErrorMessagesWithNewLine());
             }
-            model.PhotoUrl = PictureHelper.UploadImage(photoUrl, webRootPath);
+
 
             var validator = ValidationTool.Validate(new FoodValidation(), model, out List<ValidationErrorModel> errors);
 
@@ -42,7 +44,6 @@ namespace Bussines.Concrete
             {
                 return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());
             }
-          
 
             _foodDal.Add(model);
             return new SuccessResult(Uimessage.ADD_MESSAGE);
@@ -60,9 +61,7 @@ namespace Bussines.Concrete
             {
                 model.PhotoUrl = PictureHelper.UploadImage(photoUrl, webRootPath);
             }
-
             var validator = ValidationTool.Validate(new FoodValidation(), model, out List<ValidationErrorModel> errors);
-
             if (!validator)
             {
                 return new ErrorResult(errors.ValidationErrorMessagesWithNewLine());

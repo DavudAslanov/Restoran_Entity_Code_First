@@ -1,4 +1,5 @@
 ﻿using Bussines.Abstract;
+using Bussines.BaseEntities;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using Microsoft.AspNetCore.Mvc;
@@ -14,20 +15,26 @@ namespace Restoran.Web.Controllers
         {
             _reservationService = reservationService;
         }
+
+
         [HttpGet]
         public IActionResult Index()
         {
             return View();
         }
+
         [HttpPost]
-        public IActionResult Index(ReservationDto reservationDto)
+        public IActionResult Index(ReservationDto dto)
         {
-            var result=_reservationService.BookInAdvance(reservationDto);
-            if(result.IsSuccess)
+            var result = _reservationService.BookInAdvance(dto);
+            if (result.IsSuccess)
             {
-                return View(reservationDto);
+                ModelState.Clear();
+                ViewBag.Message = Uimessage.ADD_MESSAGE;
+                return View(new ReservationDto());
             }
-            return RedirectToAction("Index");
+            return View(dto);
         }
+
     }
 }

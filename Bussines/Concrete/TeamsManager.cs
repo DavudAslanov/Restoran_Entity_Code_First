@@ -9,6 +9,7 @@ using DataAcess.Abstract;
 using Entities.Concrete.Dtos;
 using Entities.Concrete.TableModels;
 using FluentValidation;
+using Microsoft.AspNetCore.Http;
 
 namespace Bussines.Concrete
 {
@@ -22,9 +23,18 @@ namespace Bussines.Concrete
             _team = teamDal;
             _Validator = validator;
         }
-        public IResult Add(TeamsCreateDto dto)
+        public IResult Add(TeamsCreateDto dto, IFormFile PhotoUrl, string webRootPath)
         {
             var model = TeamsCreateDto.ToTeams(dto);
+
+            if (PhotoUrl == null || PhotoUrl.Length == 0)
+            {
+                var erors = new List<ValidationErrorModel>();
+                erors.Add(new ValidationErrorModel { ErrorMessage = Uimessage.PHOTO_SELECTED });
+                return new ErrorResult(erors.ValidationErrorMessagesWithNewLine());
+            }
+            model.PhotoUrl = PictureHelper.UploadImage(PhotoUrl, webRootPath);
+
             var validator = ValidationTool.Validate(new TeamValidation(), model, out List<ValidationErrorModel> errors);
 
             if (!validator)
@@ -35,11 +45,22 @@ namespace Bussines.Concrete
 
             return new SuccessResult(Uimessage.ADD_MESSAGE);
         }
-        public IResult Update(TeamsUpdateDto dto)
+        public IResult Update(TeamsUpdateDto dto, IFormFile PhotoUrl, string webRootPath)
         {
             var model = TeamsUpdateDto.ToTeams(dto);
 
             model.LastUpdatedDate = DateTime.Now;
+
+            var value = GetById(dto.ID).Data;
+            model.LastUpdatedDate = DateTime.Now;
+            if (PhotoUrl == null)
+            {
+                model.PhotoUrl = value.PhotoUrl;
+            }
+            else
+            {
+                model.PhotoUrl = PictureHelper.UploadImage(PhotoUrl, webRootPath);
+            }
 
             var validator = ValidationTool.Validate(new TeamValidation(), model, out List<ValidationErrorModel> errors);
 

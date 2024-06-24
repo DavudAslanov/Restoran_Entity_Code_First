@@ -34,9 +34,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(FoodCreateDto dto,IFormFile photoUrl)
+        public IActionResult Create(FoodCreateDto dto, IFormFile photoUrl)
         {
-            var result = _foodService.Add(dto, photoUrl, _env.WebRootPath);
+            var result = _foodService.Add(dto,photoUrl,_env.WebRootPath);
 
             ViewData["FoodCategorie"] = _foodCategoryService.GetAllFoodCategories().Data;
 

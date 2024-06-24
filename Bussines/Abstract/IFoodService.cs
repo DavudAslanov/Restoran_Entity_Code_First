@@ -7,7 +7,7 @@ namespace Bussines.Abstract
 {
     public interface IFoodService
     {
-        IResult Add(FoodCreateDto dto,IFormFile photoUrl, string webRootPath);
+        IResult Add(FoodCreateDto dto, IFormFile photoUrl, string webRootPath);
 
         IResult Update(FoodUpdateDto dto,IFormFile photoUrl, string webRootPath);
 

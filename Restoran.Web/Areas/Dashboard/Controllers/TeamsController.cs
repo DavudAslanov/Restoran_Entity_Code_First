@@ -13,10 +13,12 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
     {
         private readonly ITeamsService _teamsService;
         private readonly IPositionService _positionService;
-        public TeamsController(ITeamsService teamsService, IPositionService positionService)
+        private readonly IWebHostEnvironment _env;
+        public TeamsController(ITeamsService teamsService, IPositionService positionService, IWebHostEnvironment env)
         {
             _teamsService = teamsService;
             _positionService = positionService;
+            _env = env;
         }
 
         public IActionResult Index()
@@ -31,9 +33,9 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View();
         }
         [HttpPost]
-        public IActionResult Create(TeamsCreateDto dto)
+        public IActionResult Create(TeamsCreateDto dto, IFormFile PhotoUrl)
         {
-            var result = _teamsService.Add(dto);
+            var result = _teamsService.Add(dto, PhotoUrl, _env.WebRootPath);
             ViewData["PositionId"] = _positionService.GetAll().Data;
             if (!result.IsSuccess)
             {
@@ -53,10 +55,10 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             return View(data);
         }
         [HttpPost]
-        public IActionResult Edit(TeamsUpdateDto dto)
+        public IActionResult Edit(TeamsUpdateDto dto, IFormFile PhotoUrl)
         {
             ViewData["PositionId"] = _positionService.GetAll().Data;
-            var result = _teamsService.Update(dto);
+            var result = _teamsService.Update(dto, PhotoUrl, _env.WebRootPath);
             if (!result.IsSuccess)
             {
                 ModelState.Clear();

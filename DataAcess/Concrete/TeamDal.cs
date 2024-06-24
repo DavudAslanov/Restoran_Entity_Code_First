@@ -32,6 +32,7 @@ namespace DataAcess.Concrete
                              FacebookUrl = Team.FacebookUrl,
                              IsHomePage = Team.IsHomePage,
                              PositionName=position.Name,
+                             PhotoUrl=Team.PhotoUrl,
                          };
             return result.ToList();
         }

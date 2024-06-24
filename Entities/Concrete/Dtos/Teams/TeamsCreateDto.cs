@@ -18,6 +18,8 @@ namespace Entities.Concrete.Dtos
 
         public bool IsHomePage { get; set; }
 
+        public string PhotoUrl { get; set; }
+
         public static Team ToTeams(TeamsCreateDto dto)
         {
             Team team = new Team()
@@ -29,6 +31,7 @@ namespace Entities.Concrete.Dtos
                 InstagramUrl = dto.InstagramUrl,
                 PositionID = dto.PositionID,
                 IsHomePage = dto.IsHomePage,
+                PhotoUrl = dto.PhotoUrl,
             };
             return team;
         }

@@ -20,6 +20,9 @@ namespace Entities.Concrete.Dtos
         public bool IsHomePage { get; set; }
         public string PositionName {  get; set; }
 
+
+        public string PhotoUrl { get; set; }
+
         public static List<TeamsDto> ToTeams(Team team)
         {
             TeamsDto dto = new TeamsDto()
@@ -32,6 +35,7 @@ namespace Entities.Concrete.Dtos
                InstagramUrl=team.InstagramUrl,
                PositionID=team.PositionID,
                IsHomePage=team.IsHomePage,
+               PhotoUrl=team.PhotoUrl,
             };
             List<TeamsDto> dtoList = new List<TeamsDto>();
             dtoList.Add(dto);

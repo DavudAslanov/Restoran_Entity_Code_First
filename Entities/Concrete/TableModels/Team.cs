@@ -21,6 +21,7 @@ namespace Entities.Concrete.TableModels
 
         public int PositionID { get; set; }
 
+        public string PhotoUrl { get; set; }
         public bool IsHomePage { get; set; }
         public virtual Position Position { get; set; }
     }
