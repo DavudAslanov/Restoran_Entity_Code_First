@@ -31,8 +31,11 @@
                                     <a asp-action="Edit" asp-route-id="@item.ID">
                                         <i class="fa-solid fa-pen-to-square"></i>
                                     </a> |
-                                    <a item-value="@item.ID" item-title="@item.Name" class="btnDelete">
+                                    <a item-value="@item.ID" item-title="@item.Name" class="btnSoftDelete">
                                         <i class="fas fa-trash"></i>
+                                    </a>
+                                    <a item-value="@item.ID" item-title="@item.Name" class="btnHardDelete">
+                                        <i class="fas fa-trash-alt"></i>
                                     </a>
                                 </td>
 
@@ -47,7 +50,7 @@
 
 @section Scripts {
     <script>
-        $(".btnDelete").click(function (e) {
+        $(".btnSoftDelete").click(function (e) {
             Swal.fire({
                 title: 'Əminsən?',
                 text: "Geri döndərə bilməyəcəksiz!",
@@ -76,9 +79,47 @@
                     }).then((result) => {
                         window.location = "Contact"
                     })
-
                 }
             })
         })
     </script>
+    <script>
+
+        $(".btnHardDelete").click(function (e) {
+            Swal.fire({
+                title: 'Əminsən?',
+                text: "Geri döndərə bilməyəcəksiz!",
+                icon: 'warning',
+                showCancelButton: true,
+                confirmButtonColor: '#3085d6',
+                cancelButtonText: "Ləğv et",
+                cancelButtonColor: '#d33',
+                confirmButtonText: 'Bəli '
+            }).then((result) => {
+                if (result.isConfirmed) {
+                    let itemId = e.currentTarget.attributes[0].value;
+                    let itemTitle = e.currentTarget.attributes[1].value;
+                    $.ajax({
+                        method: "POST",
+                        url: "Contact/HardDelete/",
+                        data: {
+                            id: itemId
+                        },
+                        success: function () {
+                            Swal.fire({
+                                title: 'Tamamen Silindi!',
+                                text: "'" + itemTitle + "' tamamen silindi",
+                                icon: 'success',
+                            }).then((result) => {
+                                window.location = "Contact"
+                            })
+                        }
+                    });
+                }
+            })
+        });
+    </script>
 }
+}
+
+

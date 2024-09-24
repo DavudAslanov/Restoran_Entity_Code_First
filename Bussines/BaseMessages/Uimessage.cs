@@ -11,6 +11,7 @@ namespace Bussines.BaseEntities
         public const string ADD_MESSAGE = "Əlavə Edildi";
         public const string UPDATE_MESSAGE = "Məlumat Yeniləndi";
         public const string DELETED_MESSAGE = "Məlumat Silindi";
+        public const string DELETED_MESSAGES = "Məlumat Birdəfəlik Silindi";
         public const string PHOTO_SELECTED = "Şəkil Seçilməlidir!";
 
         public static string GetRequiredMessage(string propName)

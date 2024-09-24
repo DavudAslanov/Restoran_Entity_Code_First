@@ -35,6 +35,7 @@ namespace Restoran.WebApI.Controllers
             }
             return BadRequest(result);
         }
+
         [HttpPut("PutFoodCategory")]
         public IActionResult PutFoodCategory(FoodCategoryUpdateDto dto)
         {

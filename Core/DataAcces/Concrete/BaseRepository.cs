@@ -22,7 +22,6 @@ namespace Core.DataAcces.Concrete
                 Added.State = EntityState.Added;
                 context.SaveChanges();
             }
-
         }
 
         public void Delete(Tentity entity)

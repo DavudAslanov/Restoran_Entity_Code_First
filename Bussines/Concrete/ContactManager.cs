@@ -96,5 +96,14 @@ namespace Bussines.Concrete
 
             return new SuccessResult(Uimessage.DELETED_MESSAGE);
         }
+
+        public IResult HardDelete(int id)
+        {
+            var data = GetById(id).Data;
+            data.Deleted = id;
+            _contactDal.Delete(data);
+
+            return new SuccessResult(Uimessage.DELETED_MESSAGES);
+        }
     }
 }

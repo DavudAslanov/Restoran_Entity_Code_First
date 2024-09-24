@@ -65,5 +65,16 @@ namespace Restoran.Web.Areas.Dashboard.Controllers
             }
             return View(result);
         }
+
+        [HttpPost]
+        public IActionResult DeleteS(int id)
+        {
+            var result = _contactService.Delete(id);
+            if (result.IsSuccess)
+            {
+                return RedirectToAction("Index");
+            }
+            return View(result);
+        }
     }
 }

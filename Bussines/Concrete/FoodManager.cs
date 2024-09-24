@@ -28,7 +28,6 @@ namespace Bussines.Concrete
         public IResult Add(FoodCreateDto dto, IFormFile photoUrl, string webRootPath)
         {
             var model = FoodCreateDto.ToFood(dto);
-            //string webRootPath = " ";
             model.PhotoUrl = PictureHelper.UploadImage(photoUrl,webRootPath);
             if (photoUrl == null || photoUrl.Length == 0)
             {
